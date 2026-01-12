@@ -1,0 +1,197 @@
+/* ---------------- RESET ---------------- */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    transition: all 0.25s ease;
+}
+
+/* ---------------- PAGE GRID ---------------- */
+.page {
+    display: grid;
+    grid-template-rows: 64px 1fr; /* navbar + body */
+    height: 100vh;
+}
+
+/* ---------------- NAVBAR ---------------- */
+.navbar {
+    grid-row: 1 / 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2%;
+    background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 70%);
+    color: rgb(85, 76, 76);
+    box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.05),
+        0 0.5% 2% rgba(15, 23, 42, 0.35);
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo {
+    font-size: 1.2em;
+    font-weight: 600;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    gap: 24px;
+}
+
+.nav-links li {
+    cursor: pointer;
+    padding: 6px 12px;
+    border-radius: 6px;
+}
+
+.nav-links li:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.nav-links li.active {
+    background: radial-gradient(circle at center, #ffffff 0%, #e5e7eb 80%);
+    color: #0f172a;
+    font-weight: 500;
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-box input {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    background: #f1f5f9;
+    font-size: 14px;
+}
+
+.hamburger-btn {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    font-size: 20px;
+}
+
+/* ---------------- BODY ---------------- */
+.body-wrapper {
+    display: grid;
+    grid-template-columns: minmax(220px, 20%) 1fr; /* sidebar min width + main content */
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.body-wrapper.sidebar-collapsed {
+    grid-template-columns: 0 1fr; /* sidebar hidden */
+}
+
+/* Sidebar */
+.sidebar {
+    background: radial-gradient(ellipse at top, #ffffff 0%, #f1f5f9 70%);
+    padding: 20px;
+    border-right: 1px solid #e5e7eb;
+    overflow: auto;
+}
+
+/* Sidebar links */
+.sidebar-links {
+    list-style: none;
+}
+
+.sidebar-links li {
+    padding: 10px 12px;
+    cursor: pointer;
+    border-radius: 6px;
+    color: #334155;
+}
+
+.sidebar-links li:hover {
+    background: radial-gradient(circle at center, #8088a3 0%, #3c3f46 80%);
+    color: #1e3a8a;
+}
+
+.sidebar-links li.active {
+    background: radial-gradient(circle at center, #dbeafe 0%, #bfdbfe 80%);
+    color: #1e40af;
+    font-weight: 500;
+}
+
+/* Main content */
+.content {
+    padding: 20px;
+    background: radial-gradient(ellipse at top, #e0bfbf 0%, #b2b8be 65%);
+    overflow-y: auto;
+}
+
+/* ---------------- RESPONSIVE ---------------- */
+@media (max-width: 1024px) {
+    .body-wrapper {
+        grid-template-columns: minmax(150px, 25%) 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .body-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        position: fixed;
+        top: 64px;
+        left: 0;
+        width: 60%;
+        height: calc(100% - 64px);
+        z-index: 1000;
+        box-shadow: 2% 0 8% rgba(0, 0, 0, 0.3);
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+
+    .body-wrapper.sidebar-open .sidebar {
+        transform: translateX(0);
+    }
+
+    .content {
+        width: 100%;
+    }
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #ccc;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.active {
+    background: #2563eb;
+    color: white;
+    font-weight: 600;
+}
+
+/* Sidebar variation (optional) */
+.sidebar .nav-link.active {
+    background: #1e40af;
+}

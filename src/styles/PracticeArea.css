@@ -1,0 +1,53 @@
+.practice-area {
+    padding: 20px;
+    margin-top: 20px;
+    border: 2px dashed #007bff;
+    border-radius: 12px;
+    background: #f9fafb;
+}
+
+.practice-area h2 {
+    margin-bottom: 15px;
+    color: #1e3a8a;
+}
+
+.practice-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.practice-area {
+    padding: 24px;
+    margin-top: 20px;
+    border-radius: 16px; /* softer corners */
+    background: linear-gradient(135deg, #ffffff, #f3f4f6); /* subtle gradient */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* soft shadow */
+    border: none; /* remove dashed border */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.practice-area:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); /* gentle lift on hover */
+}
+
+.practice-area h2 {
+    margin-bottom: 15px;
+    color: #1e3a8a;
+    font-weight: 600;
+    font-size: 1.4em;
+}
+
+.practice-content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+.practice-area:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.practice-area {
+    border: 1px solid #e0e0e0; /* subtle gray border */
+}
