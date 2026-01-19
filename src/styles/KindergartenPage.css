@@ -1,0 +1,37 @@
+.kindergarten-page {
+    padding: 24px;
+}
+
+.learning-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 16px;
+}
+
+.learning-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.learning-card:hover {
+    transform: translateY(-4px);
+}
+
+.emoji {
+    font-size: 2.5rem;
+    margin-bottom: 8px;
+}
+
+.name {
+    font-weight: 500;
+    text-align: center;
+}

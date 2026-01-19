@@ -72,6 +72,30 @@ export default function App() {
                         </li>
                         <li>
                             <NavLink
+                                to="/kindergarten"
+                                className={linkClass}
+                            >
+                                Kindergarten
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/first-grade"
+                                className={linkClass}
+                            >
+                                First Grade
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
+                                to="/fifth-grade"
+                                className={linkClass}
+                            >
+                                Fifth Grade
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink
                                 to="/analytics"
                                 className={linkClass}
                             >

@@ -1,10 +1,10 @@
 import { useContext } from 'react'
+import { v4 as uuidv4 } from 'uuid'
 import { CounterContext } from '../context/CounterContext'
 import '../styles/button.css'
 import '../styles/counter.css'
 
 export default function Counter() {
-    // Use Counter context
     const { count, setCount, counter } = useContext(CounterContext)
 
     return (
@@ -18,12 +18,14 @@ export default function Counter() {
                 >
                     Increase Counter
                 </button>
+
                 <button
                     className="button-secondary"
                     onClick={() => setCount(count - 1)}
                 >
                     Decrease Counter
                 </button>
+
                 <button
                     className="button-danger"
                     onClick={() => setCount(0)}
@@ -34,13 +36,14 @@ export default function Counter() {
 
             <div style={{ marginTop: '20px' }}>
                 <h4>Fetched Counters:</h4>
-                {!counter ? (
+
+                {!Array.isArray(counter) || counter.length === 0 ? (
                     <p>Loading...</p>
                 ) : (
                     <ul style={{ listStyle: 'none', padding: 0 }}>
                         {counter.map((item) => (
                             <li
-                                key={item.id}
+                                key={uuidv4()}
                                 style={{
                                     padding: '8px',
                                     margin: '4px 0',

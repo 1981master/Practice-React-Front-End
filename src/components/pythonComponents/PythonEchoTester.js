@@ -10,8 +10,10 @@ export default function PythonEchoTester() {
         try {
             const result = await callPythonHealth()
             console.log('Health API result:', result)
+            setResponse(result.data)
         } catch (err) {
             console.error(err)
+            setError(err)
         }
     }
 

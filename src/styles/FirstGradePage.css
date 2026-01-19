@@ -1,0 +1,70 @@
+.first-grade-page {
+    padding: 24px;
+}
+
+.first-grade-page h1 {
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.sea-grid,
+.math-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 16px;
+    margin-bottom: 32px;
+}
+
+.sea-card,
+.math-card {
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+.sea-card:hover,
+.math-card:hover {
+    transform: translateY(-4px);
+}
+
+.emoji {
+    font-size: 2.5rem;
+}
+
+.name {
+    font-weight: 500;
+}
+
+.options {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.options button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: none;
+    background: #1e3a8a;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.options button:hover {
+    background: #3b82f6;
+}
+
+.options button:disabled {
+    background: #94a3b8;
+    cursor: default;
+}

@@ -8,7 +8,7 @@ export const CounterContext = createContext()
 export default function CounterProvider({ children }) {
     const [count, setCount] = useState(0)
     //for fetch data, and then save it in context
-    const [counter, setCounter] = useState(null)
+    const [counter, setCounter] = useState([])
 
     useEffect(() => {
         getAllCounters()
