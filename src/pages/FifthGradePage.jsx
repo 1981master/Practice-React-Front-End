@@ -79,9 +79,15 @@ export default function FifthGradePage() {
 
                         {/* 🎉 FEEDBACK */}
                         {cardFeedback[q.id] === 'correct' && (
-                            <div className="card-feedback correct">
-                                🎉 Great job!
-                            </div>
+                            <>
+                                {' '}
+                                <div className="card-feedback correct">
+                                    ✅ Correct!
+                                </div>
+                                <div className="card-feedback correct">
+                                    🎉 Great job!
+                                </div>
+                            </>
                         )}
 
                         {cardFeedback[q.id] === 'wrong' && (

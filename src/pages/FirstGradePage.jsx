@@ -11,6 +11,9 @@ export default function FirstGradePage() {
     const [modalOpen, setModalOpen] = useState(false)
     const [modalContent, setModalContent] = useState({ title: '', text: '' })
 
+    // New state for inline feedback cards
+    const [cardFeedback, setCardFeedback] = useState({})
+
     // Open modal with title & text
     const openModal = (title, text) => {
         setModalContent({ title, text })
@@ -19,14 +22,30 @@ export default function FirstGradePage() {
 
     // Handle math answers
     const handleMathAnswer = (challenge, selected) => {
-        if (selected === challenge.answer) {
-            if (!completedChallenges.includes(challenge.id)) {
-                setScore((prev) => prev + 1)
-                setCompletedChallenges((prev) => [...prev, challenge.id])
-            }
-            alert('✅ Correct!')
-        } else {
-            alert('❌ Try Again!')
+        // Prevent double scoring
+        if (completedChallenges.includes(challenge.id)) return
+
+        const isCorrect = selected === challenge.answer
+
+        // Show feedback card
+        setCardFeedback((prev) => ({
+            ...prev,
+            [challenge.id]: isCorrect ? 'correct' : 'wrong',
+        }))
+
+        // Hide feedback after 1s
+        setTimeout(() => {
+            setCardFeedback((prev) => {
+                const copy = { ...prev }
+                delete copy[challenge.id]
+                return copy
+            })
+        }, 1000)
+
+        // Only lock if correct
+        if (isCorrect) {
+            setScore((prev) => prev + 1)
+            setCompletedChallenges((prev) => [...prev, challenge.id])
         }
     }
 
@@ -61,7 +80,11 @@ export default function FirstGradePage() {
                     {mathChallenges.map((ch) => (
                         <div
                             key={ch.id}
-                            className="math-card"
+                            className={`math-card ${
+                                completedChallenges.includes(ch.id)
+                                    ? 'completed'
+                                    : ''
+                            }`}
                             onClick={() =>
                                 openModal('Math Challenge', ch.question)
                             }
@@ -83,6 +106,24 @@ export default function FirstGradePage() {
                                     </button>
                                 ))}
                             </div>
+
+                            {/* 🎉 FEEDBACK CARD */}
+                            {cardFeedback[ch.id] === 'correct' && (
+                                <>
+                                    {' '}
+                                    <div className="card-feedback correct">
+                                        ✅ Correct!
+                                    </div>
+                                    <div className="card-feedback correct">
+                                        🎉 Great job!
+                                    </div>
+                                </>
+                            )}
+                            {cardFeedback[ch.id] === 'wrong' && (
+                                <div className="card-feedback wrong">
+                                    ❌ Try Again!
+                                </div>
+                            )}
                         </div>
                     ))}
                 </div>
