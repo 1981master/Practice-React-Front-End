@@ -16,6 +16,6 @@ export default async function getAllCounters() {
 
         return dataWithUid
     } catch (error) {
-        throw new Error('Fatal Fetching All Counter')
+        throw new Error('Fatal Fetching All Counter', error)
     }
 }

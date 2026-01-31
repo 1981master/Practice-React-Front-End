@@ -7,7 +7,7 @@ import CounterProvider from '../context/CounterContext'
 export default function Home() {
     return (
         <>
-            <h1>Welcome to MyApp</h1>
+            <h1>Welcome to Kids Fun Math</h1>
 
             <PracticeArea>
                 <CounterProvider>

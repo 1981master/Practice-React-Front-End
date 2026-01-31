@@ -19,7 +19,7 @@ export default function App() {
                     >
                         ☰
                     </button>
-                    <div className="logo">MyApp</div>
+                    <div className="logo">Kids Fun Learning</div>
                 </div>
 
                 <ul className="nav-links">
@@ -51,7 +51,7 @@ export default function App() {
             <main
                 className={`content ${sidebarOpen ? 'with-sidebar' : 'full'}`}
             >
-                <h1>Welcome to MyApp</h1>
+                <h1>Welcome to Kids Fun Learning</h1>
                 <p>
                     This is your main content area. Resize the window to see the
                     responsive behavior.

@@ -1,22 +1,38 @@
 import { useState } from 'react'
 import { mathChallenges } from '../data/fifthGradeData'
-import '../styles/FifthGradePage.css'
+import '../styles/style.css'
 
 export default function FifthGradePage() {
     const [score, setScore] = useState(0)
     const [completed, setCompleted] = useState([])
-    const [tableAnswers, setTableAnswers] = useState({}) // multiplication table
+    const [cardFeedback, setCardFeedback] = useState({})
+    const [tableAnswers, setTableAnswers] = useState({})
 
     const handleAnswer = (challenge, answer) => {
+        // block only if already solved correctly
         if (completed.includes(challenge.id)) return
 
-        if (answer === challenge.answer) {
-            setScore(score + 1)
-            alert('🎉 Correct!')
-        } else {
-            alert('❌ Try Again!')
+        const isCorrect = answer === challenge.answer
+
+        setCardFeedback((prev) => ({
+            ...prev,
+            [challenge.id]: isCorrect ? 'correct' : 'wrong',
+        }))
+
+        // hide feedback after .5s
+        setTimeout(() => {
+            setCardFeedback((prev) => {
+                const copy = { ...prev }
+                delete copy[challenge.id]
+                return copy
+            })
+        }, 500)
+
+        // ✅ ONLY LOCK WHEN CORRECT
+        if (isCorrect) {
+            setScore((s) => s + 1)
+            setCompleted((prev) => [...prev, challenge.id])
         }
-        setCompleted([...completed, challenge.id])
     }
 
     const handleTableChange = (row, col, value) => {
@@ -32,8 +48,6 @@ export default function FifthGradePage() {
         }))
     }
 
-    const tableSize = 10
-
     return (
         <div className="fifth-grade-page">
             <h1>Fifth Grade Math Fun!</h1>
@@ -41,7 +55,6 @@ export default function FifthGradePage() {
                 Score: {score} / {mathChallenges.length}
             </h2>
 
-            {/* Multiple Choice / Division Challenges */}
             <div className="questions-grid">
                 {mathChallenges.map((q) => (
                     <div
@@ -51,6 +64,7 @@ export default function FifthGradePage() {
                         }`}
                     >
                         <p className="question">{q.question}</p>
+
                         <div className="answers">
                             {q.options.map((opt, idx) => (
                                 <div
@@ -62,11 +76,22 @@ export default function FifthGradePage() {
                                 </div>
                             ))}
                         </div>
+
+                        {/* 🎉 FEEDBACK */}
+                        {cardFeedback[q.id] === 'correct' && (
+                            <div className="card-feedback correct">
+                                🎉 Great job!
+                            </div>
+                        )}
+
+                        {cardFeedback[q.id] === 'wrong' && (
+                            <div className="card-feedback wrong">
+                                ❌ Try again!
+                            </div>
+                        )}
+
                         {q.division && (
                             <div className="long-division">
-                                <p>
-                                    <strong>Long Division:</strong>
-                                </p>
                                 <pre>{q.division}</pre>
                             </div>
                         )}
@@ -74,57 +99,51 @@ export default function FifthGradePage() {
                 ))}
             </div>
 
-            {/* Multiplication Table */}
             <h2>Multiplication Table Practice</h2>
-            <p>
-                Fill in the table. Correct answers turn green, wrong answers
-                turn red.
-            </p>
+
             <table className="multiplication-table">
                 <tbody>
-                    {Array.from({ length: tableSize }, (_, rowIdx) => {
-                        const row = rowIdx + 1
+                    {Array.from({ length: 10 }, (_, r) => {
+                        const row = r + 1
                         return (
                             <tr key={row}>
-                                {Array.from(
-                                    { length: tableSize },
-                                    (_, colIdx) => {
-                                        const col = colIdx + 1
-                                        const key = `${row}-${col}`
-                                        const answer = tableAnswers[key]
-                                        return (
-                                            <td key={col}>
-                                                <div className="cell">
-                                                    <span className="expression">
-                                                        {row} × {col} =
-                                                    </span>
-                                                    <input
-                                                        type="number"
-                                                        value={
-                                                            answer
-                                                                ? answer.value
-                                                                : ''
-                                                        }
-                                                        onChange={(e) =>
-                                                            handleTableChange(
-                                                                row,
-                                                                col,
-                                                                e.target.value,
-                                                            )
-                                                        }
-                                                        className={
-                                                            answer
-                                                                ? answer.correct
-                                                                    ? 'correct'
-                                                                    : 'wrong'
-                                                                : ''
-                                                        }
-                                                    />
-                                                </div>
-                                            </td>
-                                        )
-                                    },
-                                )}
+                                {Array.from({ length: 10 }, (_, c) => {
+                                    const col = c + 1
+                                    const key = `${row}-${col}`
+                                    const answer = tableAnswers[key]
+
+                                    return (
+                                        <td key={col}>
+                                            <div className="cell">
+                                                <span className="expression">
+                                                    {row} × {col} =
+                                                </span>
+                                                <input
+                                                    type="number"
+                                                    value={
+                                                        answer
+                                                            ? answer.value
+                                                            : ''
+                                                    }
+                                                    onChange={(e) =>
+                                                        handleTableChange(
+                                                            row,
+                                                            col,
+                                                            e.target.value,
+                                                        )
+                                                    }
+                                                    className={
+                                                        answer
+                                                            ? answer.correct
+                                                                ? 'correct'
+                                                                : 'wrong'
+                                                            : ''
+                                                    }
+                                                />
+                                            </div>
+                                        </td>
+                                    )
+                                })}
                             </tr>
                         )
                     })}

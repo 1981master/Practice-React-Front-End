@@ -2,8 +2,7 @@ import { useState } from 'react'
 import FunModal from '../components/FunModal'
 import { firstGradeAnimals } from '../data/FirstGradeAnimals'
 import { mathChallenges } from '../data/mathChallenges'
-import '../styles/FirstGradePage.css'
-import '../styles/FunModal.css'
+import '../styles/style.css'
 
 export default function FirstGradePage() {
     const [score, setScore] = useState(0)

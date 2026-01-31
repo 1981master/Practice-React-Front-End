@@ -21,7 +21,7 @@ export default function App() {
                     >
                         ☰
                     </button>
-                    <div className="logo">MyApp</div>
+                    <div className="logo">Kids Fun Learning</div>
                 </div>
 
                 <ul className="nav-links">
