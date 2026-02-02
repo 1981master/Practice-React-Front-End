@@ -14,12 +14,13 @@ export default function FifthGradePage() {
 
         const isCorrect = answer === challenge.answer
 
+        // Show feedback card (just a string, not object with timeout)
         setCardFeedback((prev) => ({
             ...prev,
             [challenge.id]: isCorrect ? 'correct' : 'wrong',
         }))
 
-        // hide feedback after .5s
+        // Hide feedback after 0.5s
         setTimeout(() => {
             setCardFeedback((prev) => {
                 const copy = { ...prev }
@@ -77,17 +78,16 @@ export default function FifthGradePage() {
                             ))}
                         </div>
 
-                        {/* 🎉 FEEDBACK */}
+                        {/* 🎉 FEEDBACK CARD */}
                         {cardFeedback[q.id] === 'correct' && (
-                            <>
-                                {' '}
+                            <div className="card-feedback-container">
                                 <div className="card-feedback correct">
                                     ✅ Correct!
                                 </div>
                                 <div className="card-feedback correct">
                                     🎉 Great job!
                                 </div>
-                            </>
+                            </div>
                         )}
 
                         {cardFeedback[q.id] === 'wrong' && (

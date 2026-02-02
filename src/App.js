@@ -1,18 +1,26 @@
 import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes'
 import './styles/PracticeArea.css'
 import './styles/style.css'
 
 export default function App() {
     const [sidebarOpen, setSidebarOpen] = useState(true)
+    const location = useLocation()
+    const isLoginPage =
+        location.pathname === '/' || location.pathname === '/signup'
 
     const linkClass = ({ isActive }) =>
         isActive ? 'nav-link active' : 'nav-link'
 
+    // If login page, just render it full screen
+    if (isLoginPage) {
+        return <AppRoutes /> // Login route will fill screen
+    }
+
+    // Else render normal layout
     return (
         <div className="page">
-            {/* NAVBAR */}
             <nav className="navbar">
                 <div className="nav-left">
                     <button
@@ -23,12 +31,10 @@ export default function App() {
                     </button>
                     <div className="logo">Kids Fun Learning</div>
                 </div>
-
                 <ul className="nav-links">
                     <li>
                         <NavLink
-                            to="/"
-                            end
+                            to="/dashboard"
                             className={linkClass}
                         >
                             Home
@@ -53,18 +59,14 @@ export default function App() {
                 </ul>
             </nav>
 
-            {/* BODY */}
             <div
-                className={`body-wrapper ${
-                    sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'
-                }`}
+                className={`body-wrapper ${sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}
             >
                 <aside className="sidebar">
                     <ul className="sidebar-links">
                         <li>
                             <NavLink
-                                to="/"
-                                end
+                                to="/dashboard"
                                 className={linkClass}
                             >
                                 Dashboard
