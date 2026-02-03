@@ -5,7 +5,7 @@ import { loginUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Login() {
-    const [email, setEmail] = useState('')
+    const [parentId, setParentId] = useState('')
     const [password, setPassword] = useState('')
     const [localError, setLocalError] = useState(null)
 
@@ -17,11 +17,24 @@ export default function Login() {
         e.preventDefault()
         setLocalError(null)
 
+        if (!parentId.trim()) {
+            setLocalError('Parent ID is required')
+            return
+        }
+        if (!password) {
+            setLocalError('Password is required')
+            return
+        }
+
         try {
-            await dispatch(loginUser({ email, password })).unwrap()
-            navigate('/dashboard') // redirect after login
+            // Dispatch thunk with the exact field expected by backend
+            await dispatch(
+                loginUser({ parentId: parentId.trim(), password }),
+            ).unwrap()
+            navigate('/dashboard') // redirect on success
         } catch (err) {
-            setLocalError(err)
+            // Show HTML error if backend returns it
+            setLocalError(err || 'Login failed')
         }
     }
 
@@ -30,15 +43,18 @@ export default function Login() {
             <div className="login-box">
                 <div className="logo">🧸 Kids Fun Learning</div>
                 <h2>Welcome!</h2>
-                <p>Enter your email and password to continue</p>
+                <p>Enter your Parent ID and password to continue</p>
+
                 <form onSubmit={handleLogin}>
                     <input
-                        type="email"
-                        placeholder="Parent Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        type="text"
+                        placeholder="Parent ID"
+                        value={parentId}
+                        onChange={(e) => setParentId(e.target.value)}
                         required
+                        autoFocus
                     />
+
                     <input
                         type="password"
                         placeholder="Password"
@@ -46,17 +62,20 @@ export default function Login() {
                         onChange={(e) => setPassword(e.target.value)}
                         required
                     />
+
                     <button
                         type="submit"
                         disabled={loading}
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
+
                     {(error || localError) && (
-                        <p className="error">{localError || error}</p>
+                        <pre className="error">{localError || error}</pre>
                     )}
                 </form>
-                <p>
+
+                <p className="switch-page">
                     Don’t have an account? <a href="/signup">Sign up</a>
                 </p>
             </div>

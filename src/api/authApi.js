@@ -1,19 +1,25 @@
 import axios from 'axios'
 
 const API = axios.create({
-    baseURL: 'http://localhost:8081/api',
+    baseURL: 'http://localhost:8081/api/auth',
 })
 
-export const login = (email, password) =>
-    API.post('/auth/login', { email, password })
+// ============================
+// Login API: send loginIdentifier (Parent ID or Email) + password
+// ============================
+export const login = (parentId, password) =>
+    API.post('/login', { parentId, password }) // <-- match backend
 
+// ============================
+// Get current user info
+// ============================
 export const getMe = (token) =>
-    API.get('/auth/me', {
+    API.get('/me', {
         headers: { Authorization: `Bearer ${token}` },
     })
 
-export const signup = (data) => {
-    return axios.post('http://localhost:8081/api/auth/signup', data, {
-        withCredentials: true,
-    })
-}
+// ============================
+// Signup API
+// ============================
+export const signup = (data) =>
+    API.post('/signup', data, { withCredentials: true })

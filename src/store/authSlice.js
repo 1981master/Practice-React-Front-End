@@ -1,28 +1,73 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { login } from '../api/authApi'
+import axios from 'axios'
 
-// Load persisted token/user from localStorage
-const tokenFromStorage = localStorage.getItem('token')
-const userFromStorage = JSON.parse(localStorage.getItem('user'))
+// ========================
+// Axios instance for backend
+// ========================
+const API = axios.create({
+    baseURL: 'http://localhost:8081/api', // Spring Boot backend
+})
 
+// ========================
+// Safely load persisted token/user from localStorage
+// ========================
+let userFromStorage = null
+
+const userStr = localStorage.getItem('user')
+if (userStr && userStr !== 'undefined') {
+    try {
+        userFromStorage = JSON.parse(userStr)
+    } catch (e) {
+        console.warn('Invalid user in localStorage, clearing it', e)
+        localStorage.removeItem('user')
+        userFromStorage = null
+    }
+}
+
+const tokenFromStorage =
+    localStorage.getItem('token') !== 'undefined'
+        ? localStorage.getItem('token')
+        : null
+
+// ========================
+// Async thunk for login
+// ========================
 export const loginUser = createAsyncThunk(
     'auth/login',
-    async ({ email, password }, { rejectWithValue }) => {
+    async ({ parentId, password }, { rejectWithValue }) => {
         try {
-            const res = await login(email, password)
+            const res = await API.post('/auth/login', { parentId, password })
             return res.data // { token, user }
         } catch (err) {
-            // Return error message to extraReducers
-            return rejectWithValue(err.response?.data || 'Login failed')
+            // Optional: inspect err.response.data for backend message
+            return rejectWithValue('Invalid credentials')
         }
     },
 )
 
+// ========================
+// Async thunk for signup
+// ========================
+export const signupUser = createAsyncThunk(
+    'auth/signup',
+    async (data, { rejectWithValue }) => {
+        try {
+            const res = await API.post('/auth/signup', data)
+            return res.data // { token, user }
+        } catch (err) {
+            return rejectWithValue(err.response?.data || 'Signup failed')
+        }
+    },
+)
+
+// ========================
+// Auth slice
+// ========================
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        token: tokenFromStorage || null,
-        user: userFromStorage || null,
+        token: tokenFromStorage,
+        user: userFromStorage,
         loading: false,
         error: null,
     },
@@ -37,6 +82,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            // Login
             .addCase(loginUser.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -47,7 +93,6 @@ const authSlice = createSlice({
                 state.loading = false
                 state.error = null
 
-                // Persist to localStorage
                 localStorage.setItem('token', action.payload.token)
                 localStorage.setItem(
                     'user',
@@ -57,6 +102,28 @@ const authSlice = createSlice({
             .addCase(loginUser.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.payload || 'Login failed'
+            })
+
+            // Signup
+            .addCase(signupUser.pending, (state) => {
+                state.loading = true
+                state.error = null
+            })
+            .addCase(signupUser.fulfilled, (state, action) => {
+                state.token = action.payload.token
+                state.user = action.payload.user
+                state.loading = false
+                state.error = null
+
+                localStorage.setItem('token', action.payload.token)
+                localStorage.setItem(
+                    'user',
+                    JSON.stringify(action.payload.user),
+                )
+            })
+            .addCase(signupUser.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.payload || 'Signup failed'
             })
     },
 })

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes'
 import './styles/PracticeArea.css'
 import './styles/style.css'
@@ -7,18 +7,26 @@ import './styles/style.css'
 export default function App() {
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const location = useLocation()
+    const navigate = useNavigate()
     const isLoginPage =
         location.pathname === '/' || location.pathname === '/signup'
 
     const linkClass = ({ isActive }) =>
         isActive ? 'nav-link active' : 'nav-link'
 
-    // If login page, just render it full screen
-    if (isLoginPage) {
-        return <AppRoutes /> // Login route will fill screen
+    const handleSignOut = () => {
+        // Clear auth info (token/user)
+        localStorage.removeItem('token')
+        localStorage.removeItem('user')
+
+        // Navigate to login page and replace history
+        navigate('/', { replace: true })
     }
 
-    // Else render normal layout
+    if (isLoginPage) {
+        return <AppRoutes /> // Login/signup full screen
+    }
+
     return (
         <div className="page">
             <nav className="navbar">
@@ -60,7 +68,9 @@ export default function App() {
             </nav>
 
             <div
-                className={`body-wrapper ${sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'}`}
+                className={`body-wrapper ${
+                    sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'
+                }`}
             >
                 <aside className="sidebar">
                     <ul className="sidebar-links">
@@ -113,6 +123,16 @@ export default function App() {
                             </NavLink>
                         </li>
                     </ul>
+
+                    {/* Sign Out button */}
+                    <div>
+                        <button
+                            onClick={handleSignOut}
+                            className="nav-link"
+                        >
+                            Sign Out
+                        </button>
+                    </div>
                 </aside>
 
                 <main className="content">

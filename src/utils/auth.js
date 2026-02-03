@@ -15,7 +15,7 @@ export const getToken = () => {
 
 export const getUser = () => {
     const user = localStorage.getItem(USER_KEY)
-    return user ? JSON.parse(user) : null
+    return user ? JSON.parse(user ? user : null) : null
 }
 
 export const logout = () => {
