@@ -1,8 +1,8 @@
 import { Route, Routes } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute'
 
+import Analytics from '../components/analytics/Analytics'
 import About from '../pages/About'
-import Analytics from '../pages/Analytics'
 import Dashboard from '../pages/Dashboard'
 import FifthGradePage from '../pages/FifthGradePage'
 import FirstGradePage from '../pages/FirstGradePage'
@@ -87,6 +87,14 @@ export default function AppRoutes() {
                 element={
                     <ProtectedRoute>
                         <FifthGradePage />
+                    </ProtectedRoute>
+                }
+            />
+            <Route
+                path="/analytics"
+                element={
+                    <ProtectedRoute permission="VIEW_ANALYTICS">
+                        <Analytics />
                     </ProtectedRoute>
                 }
             />

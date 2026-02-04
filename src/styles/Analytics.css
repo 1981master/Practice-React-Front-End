@@ -1,0 +1,104 @@
+/* Root container padding */
+.analytics-page {
+    padding: 2rem;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background: #fdf6e3;
+    min-height: 100vh;
+}
+
+/* Cards (OverviewCards) */
+.analytics-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.analytics-card {
+    flex: 1 1 200px;
+    background: #fff3e0;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    text-align: center;
+    transition: transform 0.3s;
+}
+
+.analytics-card:hover {
+    transform: translateY(-5px);
+}
+
+.analytics-card h3 {
+    margin-bottom: 0.5rem;
+    color: #ff6f61;
+}
+
+.analytics-card p {
+    font-size: 1.2rem;
+    margin: 0;
+    color: #333;
+}
+
+/* Chart containers */
+.analytics-chart {
+    background: #fff3e0;
+    padding: 1rem;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+/* Tables */
+.analytics-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2rem;
+    background: #fff3e0;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.analytics-table th,
+.analytics-table td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+}
+
+.analytics-table th {
+    background: #ff6f61;
+    color: #fff;
+}
+
+.analytics-table tr:nth-child(even) {
+    background: #fff0e0;
+}
+
+/* Panels (Recommendations & Todos) */
+.analytics-panel {
+    background: #fff3e0;
+    padding: 1rem 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    margin-bottom: 2rem;
+}
+
+.analytics-panel h3 {
+    color: #ff6f61;
+    margin-bottom: 1rem;
+}
+
+.analytics-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.analytics-panel li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #ffd1c1;
+}
+
+.analytics-panel li:last-child {
+    border-bottom: none;
+}

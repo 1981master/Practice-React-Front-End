@@ -1,0 +1,136 @@
+/* ===========================
+   TodoProgressPanel Styles (Login.css style)
+   =========================== */
+
+.todo-page {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(135deg, #f0db20, #ff4e50);
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    padding-top: 2rem;
+}
+
+/* Todo box */
+.todo-box {
+    background: #fff3e0;
+    padding: 2.5rem 2rem;
+    border-radius: 25px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    transition: transform 0.3s;
+}
+
+.todo-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Headings */
+.todo-box h2 {
+    margin-bottom: 1rem;
+    color: #ff6f61;
+    text-align: center;
+}
+
+/* Input fields */
+.todo-box input,
+.todo-box textarea,
+.todo-box select {
+    width: 100%;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border-radius: 15px;
+    border: 2px solid #ff6f61;
+    font-size: 1.1rem;
+    outline: none;
+    transition: border 0.3s;
+}
+
+.todo-box input:focus,
+.todo-box textarea:focus,
+.todo-box select:focus {
+    border-color: #ff3b2f;
+}
+
+/* Buttons */
+.todo-box button {
+    width: 100%;
+    padding: 1rem;
+    margin-top: 1rem;
+    background: #ff6f61;
+    color: #fff;
+    border: none;
+    border-radius: 15px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.todo-box button:hover {
+    background: #ff3b2f;
+}
+
+.todo-box button:disabled {
+    background: #ffa38c;
+    cursor: not-allowed;
+}
+
+/* Error messages */
+.todo-box .error {
+    color: red;
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
+}
+
+/* Todo list items */
+.todo-list {
+    list-style: none;
+    padding: 0;
+    margin: 1rem 0 0 0;
+}
+
+.todo-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 12px;
+    border: 1px solid #ff6f61;
+    border-radius: 15px;
+    margin-bottom: 8px;
+    background-color: #fff3e0;
+    transition: transform 0.2s;
+}
+
+.todo-item:hover {
+    transform: translateY(-1px);
+}
+
+.todo-item.completed {
+    opacity: 0.7;
+    text-decoration: line-through;
+}
+
+/* Todo text and note */
+.todo-item div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Delete button */
+.todo-item button {
+    background-color: #ff6f61;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.todo-item button:hover {
+    background-color: #ff3b2f;
+}
