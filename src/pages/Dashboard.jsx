@@ -1,4 +1,3 @@
-// src/pages/Dashboard.js
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Analytics from '../components/analytics/Analytics'
@@ -11,7 +10,7 @@ import {
     selectKidsItems,
     selectKidsLoading,
 } from '../store/kidSlice'
-import '../styles/Login.css' // keep styling consistent
+import '../styles/dashboard.css' // New CSS for styling the Dashboard display name and logo
 
 export default function Dashboard() {
     const dispatch = useDispatch()
@@ -32,35 +31,61 @@ export default function Dashboard() {
     }, [user, dispatch])
 
     // Log kids whenever they come back from DB
-    useEffect(() => {
-        console.log('-----kids from store-----', kids)
-    }, [kids])
+    // useEffect(() => {
+    //     console.log('-----kids from store-----', kids)
+    // }, [kids])
 
     if (!user) return <p>Loading...</p>
 
     return (
-        <div className="login-page">
-            <div className="login-box">
+        <div className="dashboard-page">
+            <div className="dashboard-box">
+                {/* Logo */}
                 <div className="logo">🧸</div>
+
+                {/* Welcome Message */}
                 <h2>Welcome, {user.email || user.parentId}</h2>
 
-                {/* Add Kid form */}
-                {user.permissions?.includes('VIEW_KIDS') && <AddKid />}
+                {/* Add Kid Section */}
+                {user.permissions?.includes('VIEW_KIDS') && (
+                    <div className="add-kid-section">
+                        <h3>Add a New Kid</h3>
+                        <AddKid />
+                    </div>
+                )}
 
+                {/* Kids List */}
                 <h3>Your Kids</h3>
                 {loading ? (
                     <p>Loading kids...</p>
                 ) : error ? (
                     <p className="error">Error: {error}</p>
                 ) : kids.length > 0 ? (
-                    <ul>
+                    <div className="kids-list">
                         {kids.map((k, index) => (
-                            <li key={k.id || index}>
-                                {k.name} {k.age ? `(${k.age} yrs)` : ''}{' '}
-                                {k.grade && `- Grade ${k.grade}`}
-                            </li>
+                            <div
+                                key={k.id || index}
+                                className="kid-card"
+                            >
+                                <div className="kid-info">
+                                    <h4 className="kid-name">{k.name}</h4>
+                                    <p className="kid-details">
+                                        <span className="kid-age">
+                                            {k.age
+                                                ? `${k.age} yrs`
+                                                : 'Age not available'}
+                                        </span>
+                                        {k.grade && (
+                                            <span className="kid-grade">
+                                                {' '}
+                                                - Grade {k.grade}
+                                            </span>
+                                        )}
+                                    </p>
+                                </div>
+                            </div>
                         ))}
-                    </ul>
+                    </div>
                 ) : (
                     <p>No kids added yet.</p>
                 )}

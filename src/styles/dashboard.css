@@ -1,15 +1,5 @@
-/* Ensure full height for root container */
-html,
-body,
-#root {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
-/* Full screen login container */
-.login-page {
+/* Full screen dashboard container */
+.dashboard-page {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -19,84 +9,56 @@ body,
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-/* Login box */
-.login-box {
+/* Dashboard box (card that contains all the dashboard content) */
+.dashboard-box {
     background: #fff3e0;
     padding: 3rem 2.5rem;
     border-radius: 25px;
     text-align: center;
-    width: 350px;
-    max-width: 90%;
+    width: 600px; /* Increase the width of the dashboard card */
+    max-width: 90%; /* Ensure responsiveness on smaller screens */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
     transition: transform 0.3s;
 }
 
-.login-box:hover {
+/* Hover effect for dashboard box */
+.dashboard-box:hover {
     transform: translateY(-5px);
 }
 
 /* Logo */
-.login-box .logo {
-    font-size: 3rem;
+.dashboard-box .logo {
+    font-size: 4rem; /* Larger font for the logo */
     margin-bottom: 1rem;
+    color: #ff6f61; /* Matching the theme color */
+    text-align: center;
 }
 
-/* Headings */
-.login-box h2 {
-    margin-bottom: 0.5rem;
+/* Welcome Message */
+.dashboard-box h2 {
+    margin-bottom: 1.5rem;
     color: #ff6f61;
+    font-size: 2rem; /* Larger welcome message */
+    font-weight: bold; /* Make it bold */
+    text-align: center;
 }
 
-.login-box p {
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-    color: #333;
-}
-
-/* Inputs */
-.login-box input {
-    width: 100%;
+/* Add Kid Section */
+.add-kid-section {
+    background-color: #ff6f61;
     padding: 1rem;
-    margin: 0.5rem 0;
+    margin-top: 1.5rem;
     border-radius: 15px;
-    border: 2px solid #ff6f61;
-    font-size: 1.1rem;
-    outline: none;
-    transition: border 0.3s;
-}
-
-.login-box input:focus {
-    border-color: #ff3b2f;
-}
-
-/* Button */
-.login-box button {
-    width: 100%;
-    padding: 1rem;
-    margin-top: 1rem;
-    background: #ff6f61;
     color: #fff;
-    border: none;
-    border-radius: 15px;
-    font-size: 1.2rem;
-    cursor: pointer;
-    transition: background 0.3s;
+    text-align: center;
 }
 
-.login-box button:hover {
-    background: #ff3b2f;
-}
-
-.login-box button:disabled {
-    background: #ffa38c;
-    cursor: not-allowed;
-}
-
-/* Error messages */
-.login-box .error {
-    color: red;
-    margin-top: 0.5rem;
-    font-size: 0.9rem;
+/* Add Kid heading */
+.add-kid-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
 }
 
 /* Kids List */
@@ -120,6 +82,7 @@ body,
     text-align: center;
 }
 
+/* Kid Card hover effect */
 .kid-card:hover {
     transform: translateY(-5px);
 }
@@ -162,5 +125,10 @@ body,
     }
     .kid-card {
         width: 300px; /* Increase width for larger screens */
+    }
+
+    /* Larger screens: Increase the width of the dashboard box */
+    .dashboard-box {
+        width: 800px; /* Make the dashboard card even wider */
     }
 }

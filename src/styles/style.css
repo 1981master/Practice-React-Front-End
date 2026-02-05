@@ -168,125 +168,6 @@
     font-weight: 500;
 }
 
-/* ---------------- RESPONSIVE ---------------- */
-@media (max-width: 1024px) {
-    .body-wrapper {
-        grid-template-columns: minmax(150px, 25%) 1fr;
-    }
-}
-
-@media (max-width: 768px) {
-    .body-wrapper {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        position: fixed;
-        top: 64px;
-        left: 0;
-        width: 60%;
-        height: calc(100% - 64px);
-        z-index: 1000;
-        box-shadow: 2% 0 8% rgba(0, 0, 0, 0.3);
-        transform: translateX(-100%);
-        transition: transform 0.3s ease;
-    }
-
-    .body-wrapper.sidebar-open .sidebar {
-        transform: translateX(0);
-    }
-
-    .content {
-        width: 100%;
-    }
-}
-
-/* ---------------- BUTTONS ---------------- */
-.btn {
-    padding: 10px 18px;
-    border-radius: 12px;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-    font-size: 14px;
-    font-weight: 600;
-    transition: var(--transition-all);
-}
-
-.btn--primary {
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.35);
-}
-
-.btn--primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(37, 99, 235, 0.45);
-}
-
-.btn--secondary {
-    background: linear-gradient(135deg, #facc15, #fde047);
-    color: #111827;
-    box-shadow: 0 8px 20px rgba(250, 204, 21, 0.35);
-}
-
-.btn--secondary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(250, 204, 21, 0.45);
-}
-
-.btn--danger {
-    background: linear-gradient(135deg, #ef4444, #dc2626);
-    color: #fff;
-    box-shadow: 0 8px 20px rgba(239, 68, 68, 0.35);
-}
-
-.btn--danger:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 28px rgba(239, 68, 68, 0.45);
-}
-
-.btn:active {
-    transform: scale(0.96);
-}
-
-/* ---------------- PAGE CENTER ---------------- */
-.page-center {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* ---------------- COUNTER ---------------- */
-.counter {
-    background: #f0f4f8;
-    padding: 20px;
-    border-radius: 12px;
-    width: max-content;
-    min-width: 250px;
-    text-align: center;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-    font-family: 'Segoe UI', 'Inter', sans-serif;
-    transition: transform 0.2s ease;
-}
-
-.counter:hover {
-    transform: translateY(+3px);
-}
-
-.counter h3 {
-    font-size: 1.4rem;
-    margin-bottom: 15px;
-    color: var(--color-primary-dark);
-}
-
-.counter-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
 /* ---------------- MODALS ---------------- */
 .modal-overlay {
     position: fixed;
@@ -312,6 +193,8 @@
     text-align: center;
     position: relative;
     animation: popIn 0.3s ease;
+    max-height: 80vh; /* Adjust the height to make room for scrolling */
+    overflow: hidden; /* Prevents overflow outside modal */
 }
 
 .modal-title {
@@ -439,258 +322,49 @@
     cursor: default;
 }
 
-/* ---------------- FIFTH GRADE PAGE ---------------- */
-.fifth-grade-page {
-    padding: 20px;
-    font-family: 'Comic Sans MS', sans-serif;
-    text-align: center;
-    background: #f0f9ff;
-    min-height: 100vh;
+/* ---------------- LIFE CYCLE ---------------- */
+.life-cycle-section {
+    margin-top: 15px;
 }
 
-.fifth-grade-page h1 {
-    font-size: 2rem;
-    color: var(--color-primary-dark);
-    margin-bottom: 10px;
-}
-
-.fifth-grade-page h2 {
-    font-size: 1.4rem;
-    color: #1d4ed8;
-    margin: 20px 0 10px;
-}
-
-.fifth-grade-page .questions-grid {
+.life-cycle-grid {
     display: flex;
     flex-wrap: wrap;
-    gap: 15px;
+    gap: 10px;
     justify-content: center;
 }
 
-.fifth-grade-page .question-card {
-    position: relative;
-    background: linear-gradient(135deg, #fff3e0, #ffe0b2);
-    border-radius: 12px;
-    padding: 15px;
-    width: 250px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.fifth-grade-page .question-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 3px 5px 15px rgba(0, 0, 0, 0.2);
-}
-
-.fifth-grade-page .question-card.completed {
-    opacity: 0.7;
-}
-
-.fifth-grade-page .question {
-    font-size: 1.1rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    color: var(--color-primary-dark);
-}
-
-.fifth-grade-page .answers {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-}
-
-.fifth-grade-page .answer-bubble {
-    background: #bfdbfe;
-    padding: 8px 12px;
-    border-radius: 20px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: var(--transition-all);
-}
-
-.fifth-grade-page .answer-bubble:hover {
-    transform: scale(1.1);
-    background: #60a5fa;
-}
-
-/* ---------------- FEEDBACK ---------------- */
-.feedback {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    padding: 10px 18px;
-    border-radius: 16px;
-    font-size: 1.3rem;
-    font-weight: bold;
-    pointer-events: none;
-    animation: popFade 1.5s ease forwards;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-}
-
-.feedback.correct {
-    background: linear-gradient(135deg, #22c55e, #4ade80);
-    color: white;
-}
-
-.feedback.wrong {
-    background: linear-gradient(135deg, #ef4444, #f87171);
-    color: white;
-}
-
-@keyframes popFade {
-    0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 0;
-    }
-    30% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 1;
-    }
-    70% {
-        transform: translate(-50%, -60%) scale(1);
-        opacity: 1;
-    }
-    100% {
-        transform: translate(-50%, -70%) scale(0.9);
-        opacity: 0;
-    }
-}
-
-/* ---------------- LONG DIVISION ---------------- */
-.long-division {
-    margin-top: 10px;
-    text-align: left;
-    background: #e0f2fe;
+.life-cycle-card {
+    background: #e0f7fa;
+    border-radius: 8px;
     padding: 8px;
-    border-radius: 8px;
-    font-family: monospace;
-    white-space: pre;
-    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100px;
 }
 
-/* ---------------- MULTIPLICATION TABLE ---------------- */
-.multiplication-table {
-    margin: 20px auto;
-    border-collapse: separate;
-    border-spacing: 10px;
+.life-cycle-card .emoji {
+    font-size: 2rem;
 }
 
-.multiplication-table td {
-    padding: 5px;
-}
-
-.cell {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: linear-gradient(135deg, #fef3c7, #fde68a);
-    border-radius: 8px;
-    padding: 5px 10px;
-    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.15);
-}
-
-.expression {
+.life-cycle-card .stage {
     font-weight: bold;
-    font-size: 1.1rem;
-    color: #1d4ed8;
+    margin-top: 5px;
 }
 
-.multiplication-table input {
-    width: 50px;
-    padding: 4px;
-    font-size: 1rem;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    text-align: center;
-    transition: var(--transition-all);
+.life-cycle-card .text {
+    font-size: 0.8rem;
+    margin-top: 3px;
 }
 
-.multiplication-table input.correct {
-    border-color: #16a34a;
-    background-color: #bbf7d0;
-}
+/* ================= FIRST GRADE MODAL FIX ================= */
 
-.multiplication-table input.wrong {
-    border-color: #dc2626;
-    background-color: #fecaca;
+/* wrapper inside modal that can scroll */
+.first-grade-modal-body {
+    max-height: 65vh; /* Ensures that the modal content is scrollable if it overflows */
+    overflow-y: auto; /* Enables vertical scrolling */
+    padding-right: 6px; /* space for scrollbar */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
 }
-
-/* ---------------- KINDERGARTEN PAGE ---------------- */
-.kindergarten-page {
-    padding: 24px;
-    background: #fefefe;
-}
-
-.kindergarten-page .learning-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 16px;
-}
-
-.kindergarten-page .learning-card {
-    background: #ffffff;
-    border-radius: 14px;
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 16px;
-    cursor: pointer;
-    transition:
-        transform 0.2s ease,
-        box-shadow 0.2s ease;
-}
-
-.kindergarten-page .learning-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
-}
-
-.kindergarten-page .letter {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: #ff6f61;
-    margin-bottom: 4px;
-}
-
-.kindergarten-page .emoji {
-    font-size: 2.5rem;
-    margin-bottom: 6px;
-}
-
-.kindergarten-page .name {
-    font-size: 1.1rem;
-    font-weight: 500;
-    text-align: center;
-}
-
-/* ---------------- PRACTICE AREA ---------------- */
-.practice-area {
-    padding: 24px;
-    margin-top: 24px;
-    border-radius: 16px;
-    background: linear-gradient(135deg, #ffffff, #f3f4f6);
-    border: 1px solid #e5e7eb;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
-}
-
-.practice-content {
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
-}
-
-.practice-content > * {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    background: #ffffff;
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.first-grade-modal-body h3 {
+    margin-top: 12px;
 }
