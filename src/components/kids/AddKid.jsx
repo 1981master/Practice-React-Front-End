@@ -8,6 +8,7 @@ export default function AddKid() {
     const [name, setName] = useState('')
     const [age, setAge] = useState('')
     const [grade, setGrade] = useState('')
+    const [childLoginId, setChildLoginId] = useState('') // New field for childLoginId
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -16,13 +17,28 @@ export default function AddKid() {
     const handleSubmit = async (e) => {
         e.preventDefault()
 
-        if (!name.trim()) return
+        // Simple validation
+        if (!name.trim()) {
+            alert("Child's name is required.")
+            return
+        }
+
+        if (age && isNaN(age)) {
+            alert('Age must be a number.')
+            return
+        }
+
+        if (!childLoginId.trim()) {
+            alert("Child's login ID is required.")
+            return
+        }
 
         const result = await dispatch(
             addKid({
                 name: name.trim(),
                 age: age ? Number(age) : null,
                 grade: grade || null,
+                childLoginId: childLoginId.trim(), // Add childLoginId to the request
             }),
         )
 
@@ -59,6 +75,13 @@ export default function AddKid() {
                         placeholder="Grade (optional)"
                         value={grade}
                         onChange={(e) => setGrade(e.target.value)}
+                    />
+
+                    <input
+                        type="text"
+                        placeholder="Child Login ID"
+                        value={childLoginId}
+                        onChange={(e) => setChildLoginId(e.target.value)}
                     />
 
                     <button

@@ -29,7 +29,8 @@ export default function FunModal({ isOpen, onClose, title, children }) {
                     ✖
                 </button>
                 {title && <h2 className="modal-title">{title}</h2>}
-                <div className="modal-body">{children}</div>
+                <div className="modal-body">{children}</div>{' '}
+                {/* Display children here */}
             </div>
         </div>
     )

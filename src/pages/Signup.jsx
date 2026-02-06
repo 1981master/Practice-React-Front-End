@@ -72,7 +72,10 @@ export default function Signup() {
 
                 {message && <p className="login-message">{message}</p>}
 
-                <p className="switch-page">
+                <p
+                    className="switch-page"
+                    style={{ cursor: 'pointer' }}
+                >
                     Already have an account?{' '}
                     <span onClick={() => navigate('/')}>Login</span>
                 </p>

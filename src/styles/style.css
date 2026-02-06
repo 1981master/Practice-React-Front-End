@@ -694,3 +694,572 @@
     padding: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
+/* New button styles for feedback */
+.btn--correct {
+    background: #16a34a; /* bright green */
+    color: white;
+    cursor: default;
+}
+
+.btn--disabled {
+    background: #d1fae5; /* light green / gray */
+    color: #555;
+    cursor: default;
+}
+.btn--correct {
+    background: #16a34a; /* green for correct */
+    color: white;
+    cursor: default;
+}
+
+.btn--wrong {
+    background: #ef4444; /* red for wrong */
+    color: white;
+}
+
+.btn--disabled {
+    background: #d1fae5; /* light gray/green */
+    color: #555;
+    cursor: default;
+}
+.decimal-input {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 2px solid #ccc;
+    font-size: 1rem;
+    width: 120px;
+    text-align: center;
+    margin: 10px 0;
+    transition: all 0.2s ease;
+}
+
+.decimal-input:focus {
+    border-color: #3b82f6; /* primary color */
+    outline: none;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+}
+
+.decimal-input.correct {
+    border-color: #16a34a;
+    background-color: #bbf7d0;
+}
+
+.decimal-input.wrong {
+    border-color: #dc2626;
+    background-color: #fecaca;
+}
+/* ---------- FRACTION GAME ---------- */
+.fraction-game {
+    text-align: center;
+    padding: 20px;
+}
+
+.fraction-bank {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.fraction-tile {
+    background: #fde68a;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: grab;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.fraction-tile.balanced {
+    background: #22c55e;
+    color: white;
+}
+
+.balance-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 20px;
+}
+
+.circle {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: #e0f2fe;
+    border: 4px dashed #60a5fa;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.3s ease;
+}
+
+.circle span {
+    font-weight: bold;
+}
+
+.circle .total {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: #1d4ed8;
+}
+
+.circle.balanced {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+
+.balanced-message {
+    margin-top: 20px;
+    font-size: 1.4rem;
+    color: #16a34a;
+    font-weight: bold;
+}
+.fraction-pizza-game {
+    margin-top: 40px;
+    text-align: center;
+}
+
+.pizza-circle {
+    position: relative;
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    margin: 30px auto;
+    background: #fde68a;
+    border: 6px solid #f59e0b;
+    overflow: hidden;
+    transition:
+        background 0.3s ease,
+        transform 0.3s ease;
+}
+
+.pizza-circle.full {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+
+.pizza-circle.over {
+    background: #fecaca;
+    border-color: #dc2626;
+    animation: shake 0.3s;
+}
+
+.pizza-slice {
+    position: absolute;
+    inset: 0;
+    background: conic-gradient(#f97316 var(--slice-size), transparent 0);
+}
+
+.pizza-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 1.3rem;
+    pointer-events: none;
+}
+
+@keyframes shake {
+    0% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(3deg);
+    }
+    50% {
+        transform: rotate(-3deg);
+    }
+    75% {
+        transform: rotate(2deg);
+    }
+    100% {
+        transform: rotate(0deg);
+    }
+}
+.grid-2-rows {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(50px, 1fr));
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+.fraction-row {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+/* ---------- FRACTION BANK (2 ROWS) ---------- */
+.fraction-bank {
+    margin: 20px auto;
+    max-width: 700px;
+}
+
+.grid-2-rows {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(50px, 1fr));
+    gap: 10px;
+    justify-content: center;
+}
+
+/* ---------- FRACTION TILE ---------- */
+.fraction-tile {
+    background: #bfdbfe;
+    padding: 10px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: grab;
+    user-select: none;
+    transition: transform 0.2s;
+}
+
+.fraction-tile:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+/* ---------- BALANCE AREA ---------- */
+.balance-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.circle {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 4px solid #f59e0b;
+    background: #fde68a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.circle.balanced {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+
+.circle span {
+    display: block;
+    margin: 2px 0;
+}
+
+.total {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+.balanced-message {
+    color: #16a34a;
+    font-weight: bold;
+    margin: 15px 0;
+}
+.fraction-bank.grid-2-rows {
+    display: grid;
+    grid-template-columns: repeat(10, minmax(50px, 1fr));
+    gap: 10px;
+    justify-content: center;
+}
+
+.fraction-tile {
+    background: #bfdbfe;
+    padding: 8px;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: grab;
+    user-select: none;
+    text-align: center;
+}
+
+.fraction-tile:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+
+.pizza-area {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.circle-pizza {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+/* ---------------- Shape Puzzle ---------------- */
+.shape-puzzle {
+    margin: 30px auto;
+    max-width: 360px;
+}
+
+.puzzle-container {
+    width: 100%;
+    height: 240px;
+    border: 2px dashed #60a5fa;
+    background: #e0f7ff;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+}
+
+.puzzle-piece {
+    margin: 5px;
+    cursor: grab;
+    border-radius: 10px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.2);
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.puzzle-piece:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+    box-shadow: 4px 6px 10px rgba(0, 0, 0, 0.3);
+}
+
+.puzzle-piece.placed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    opacity: 0.9;
+}
+
+.pieces-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    justify-content: center;
+}
+
+/* ---------------- Symmetry Mirror ---------------- */
+.symmetry-mirror {
+    margin: 30px auto;
+    max-width: 360px;
+    text-align: center;
+}
+
+.mirror-container {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.mirror-side {
+    flex: 1;
+    height: 220px;
+    border: 2px dashed #f59e0b;
+    border-radius: 12px;
+    background: #fff7e6;
+    padding: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    overflow-y: auto;
+}
+
+.shape {
+    width: 30px;
+    height: 30px;
+    cursor: grab;
+    border-radius: 50%;
+    background: #34d399;
+    box-shadow: 1px 2px 4px rgba(0, 0, 0, 0.3);
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.shape:active {
+    cursor: grabbing;
+    transform: scale(1.2);
+}
+
+.shapes-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 12px;
+    justify-content: center;
+}
+
+/* ---------------- Angle Builder ---------------- */
+.angle-builder {
+    margin: 30px auto;
+    max-width: 360px;
+    text-align: center;
+}
+
+.angle-container {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f0f9ff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.triangle {
+    width: 0;
+    height: 0;
+    border-left: 55px solid transparent;
+    border-right: 55px solid transparent;
+    border-bottom: 110px solid #3b82f6;
+    transition:
+        transform 0.3s ease,
+        border-color 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.angle-controls {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.angle-controls button {
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    background: #60a5fa;
+    color: white;
+    font-weight: 600;
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.angle-controls button:hover {
+    transform: translateY(-2px);
+    background: #2563eb;
+}
+.math-grid-puzzle {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: repeat(4, 60px);
+    gap: 8px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.puzzle-box {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: #fef3c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.puzzle-box.correct {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+
+.puzzle-box.wrong {
+    background: #fecaca;
+    border-color: #dc2626;
+}
+
+.number-tile {
+    width: 50px;
+    height: 50px;
+    background: #93c5fd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.number-tile:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}
+.math-grid-puzzle {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: repeat(4, 60px);
+    gap: 8px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.puzzle-box {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: #fef3c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.puzzle-box.correct {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+
+.puzzle-box.wrong {
+    background: #fecaca;
+    border-color: #dc2626;
+}
+
+.number-tile {
+    width: 50px;
+    height: 50px;
+    background: #93c5fd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: grab;
+    user-select: none;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.number-tile:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}

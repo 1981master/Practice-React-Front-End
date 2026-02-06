@@ -1,0 +1,71 @@
+.math-grid-puzzle-wrapper h2 {
+    color: var(--color-primary-dark);
+    margin-bottom: 16px;
+}
+
+.math-grid-puzzle {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: repeat(4, 60px);
+    gap: 8px;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.puzzle-box {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #334155;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.4rem;
+    font-weight: bold;
+    background: #fef3c7;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.puzzle-box.correct {
+    background: #bbf7d0;
+    border-color: #16a34a;
+}
+.puzzle-box.wrong {
+    background: #fecaca;
+    border-color: #dc2626;
+}
+
+.tile-bank {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.number-tile {
+    width: 50px;
+    height: 50px;
+    background: #bfdbfe;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s;
+}
+
+.number-tile.selected {
+    outline: 3px solid var(--color-primary-dark);
+    transform: scale(1.1);
+}
+
+.number-tile:active {
+    cursor: grabbing;
+    transform: scale(1.1);
+}

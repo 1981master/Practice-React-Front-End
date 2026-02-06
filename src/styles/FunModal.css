@@ -1,3 +1,4 @@
+/* Modal Overlay */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -12,35 +13,43 @@
     animation: fadeIn 0.3s ease;
 }
 
+/* Modal Content Box */
 .modal-content {
-    background: #fff9c4; /* fun yellow */
+    background: #fff9c4; /* Fun yellow color */
     border-radius: 20px;
     padding: 24px;
     width: 90%;
-    max-width: 400px;
+    max-width: 500px; /* Make the modal wider */
+    max-height: 80vh; /* Set a max height for the modal */
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
     text-align: center;
     position: relative;
     animation: popIn 0.3s ease;
+    overflow-y: auto; /* Enable scrolling */
 }
 
+/* Modal Title */
 .modal-title {
-    color: #f57f17;
+    color: #f57f17; /* Bright yellow */
     margin-bottom: 16px;
     font-size: 1.5rem;
     font-weight: bold;
 }
 
+/* Modal Body */
 .modal-body {
     font-size: 1.1rem;
     color: #333;
+    margin-bottom: 20px; /* Added some margin below content */
+    padding-right: 8px; /* Padding for the scrollbar */
 }
 
+/* Close Button */
 .close-btn {
     position: absolute;
     top: 12px;
     right: 12px;
-    background: #ff8a65;
+    background: #ff8a65; /* Coral color */
     border: none;
     color: white;
     border-radius: 50%;
@@ -51,11 +60,39 @@
     transition: transform 0.2s;
 }
 
+/* Close Button Hover Effect */
 .close-btn:hover {
     transform: scale(1.2);
+    background: #ff7043; /* Slightly darker shade of coral */
 }
 
-/* Animations */
+/* Button Styles (For See Life Cycle or any action buttons) */
+.btn {
+    background-color: #ff8a65; /* Coral color */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: #e65c44; /* Slightly darker shade for hover */
+}
+
+/* Primary Button */
+.btn--primary {
+    background-color: #f57f17; /* Primary fun yellow color */
+}
+
+.btn--primary:hover {
+    background-color: #e65100; /* Darker shade of yellow on hover */
+}
+
+/* Animations for Modal */
 @keyframes popIn {
     0% {
         transform: scale(0.5);

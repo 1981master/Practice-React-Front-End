@@ -11,7 +11,6 @@ import '../../styles/todo.css'
 export default function TodoProgressPanel({ kidId }) {
     const dispatch = useDispatch()
 
-    // Destructure items array from todo slice safely
     const {
         items: todos = [],
         loading = false,
@@ -22,36 +21,31 @@ export default function TodoProgressPanel({ kidId }) {
     const [note, setNote] = useState('')
     const [priority, setPriority] = useState('MEDIUM')
 
-    // Fetch todos on kidId change
     useEffect(() => {
         if (kidId) {
             dispatch(fetchTodos(kidId))
         }
     }, [kidId, dispatch])
 
-    // Add new todo
     const handleAddTodo = (e) => {
         e.preventDefault()
         if (!input.trim()) return
 
-        const newTodo = {
-            kidId,
-            text: input.trim(),
-            note: note.trim() || null,
-            priority,
-            completed: false,
-        }
+        dispatch(
+            addTodo({
+                kidId,
+                text: input.trim(),
+                note: note.trim() || null,
+                priority,
+                completed: false,
+            }),
+        )
 
-        dispatch(addTodo(newTodo))
         setInput('')
         setNote('')
         setPriority('MEDIUM')
     }
 
-    const handleToggle = (id) => dispatch(toggleTodo(id))
-    const handleDelete = (id) => dispatch(deleteTodo(id))
-
-    // Calculate progress safely
     const completed = todos.filter((t) => t.completed).length
     const total = todos.length
     const percent = total ? (completed / total) * 100 : 0
@@ -60,12 +54,10 @@ export default function TodoProgressPanel({ kidId }) {
         <div className="todo-page">
             <div className="todo-box">
                 <h2>Todo Progress</h2>
-                <p>
-                    Completed {completed} of {total} tasks ({percent.toFixed(0)}
-                    %)
+                <p className="todo-progress">
+                    {completed}/{total} completed ({percent.toFixed(0)}%)
                 </p>
 
-                {/* Add Todo Form */}
                 <form
                     className="todo-form"
                     onSubmit={handleAddTodo}
@@ -93,6 +85,7 @@ export default function TodoProgressPanel({ kidId }) {
                         <option value="MEDIUM">Medium</option>
                         <option value="HIGH">High</option>
                     </select>
+
                     <button
                         type="submit"
                         disabled={loading}
@@ -101,9 +94,8 @@ export default function TodoProgressPanel({ kidId }) {
                     </button>
                 </form>
 
-                {/* Todo List */}
                 {todos.length === 0 ? (
-                    <p>No todo items available.</p>
+                    <p className="empty">No todo items available.</p>
                 ) : (
                     <ul className="todo-list">
                         {todos.map((t) => (
@@ -111,14 +103,53 @@ export default function TodoProgressPanel({ kidId }) {
                                 key={t.id}
                                 className={`todo-item ${t.completed ? 'completed' : ''}`}
                             >
-                                <div onClick={() => handleToggle(t.id)}>
-                                    <strong>{t.text}</strong> ({t.priority}){' '}
-                                    {t.completed ? '✅' : '❌'}
-                                    {t.note && <small> 📝 {t.note}</small>}
+                                <div className="todo-left">
+                                    <input
+                                        type="checkbox"
+                                        checked={t.completed}
+                                        onChange={() =>
+                                            dispatch(toggleTodo(t.id))
+                                        }
+                                    />
+
+                                    <div className="todo-content">
+                                        <span className="todo-text">
+                                            {t.text}
+                                        </span>
+
+                                        {t.note && (
+                                            <span className="todo-note">
+                                                📝 {t.note}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <span
+                                        className={`priority ${t.priority.toLowerCase()}`}
+                                    >
+                                        {t.priority}
+                                    </span>
                                 </div>
-                                <button onClick={() => handleDelete(t.id)}>
-                                    Delete
-                                </button>
+
+                                <div className="todo-actions">
+                                    <button
+                                        className="edit-btn"
+                                        title="Update todo"
+                                        type="button"
+                                    >
+                                        ✏️
+                                    </button>{' '}
+                                    <button
+                                        className="delete-btn"
+                                        title="Delete todo"
+                                        type="button"
+                                        onClick={() =>
+                                            dispatch(deleteTodo(t.id))
+                                        }
+                                    >
+                                        🗑
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
