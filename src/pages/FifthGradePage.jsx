@@ -1,5 +1,8 @@
 import { useState } from 'react'
+import FunModal from '../components/FunModal'
 import { mathChallenges } from '../data/fifthGradeData'
+import FractionBalance from '../pages/FractionBalance'
+import FractionPizzaBalance from '../pages/FractionPizzaBalance'
 import '../styles/style.css'
 
 export default function FifthGradePage() {
@@ -8,19 +11,51 @@ export default function FifthGradePage() {
     const [cardFeedback, setCardFeedback] = useState({})
     const [tableAnswers, setTableAnswers] = useState({})
 
+    // ---------- Decimal Challenge ----------
+    const [modalOpen, setModalOpen] = useState(false)
+    const [decimalChallenge, setDecimalChallenge] = useState(
+        generateDecimalChallenge(),
+    )
+    const [decimalAnswer, setDecimalAnswer] = useState('')
+    const [decimalFeedback, setDecimalFeedback] = useState('')
+
+    function generateDecimalChallenge() {
+        const a = (Math.random() * 0.9 + 0.1).toFixed(3)
+        const b = (Math.random() * 0.9 + 0.1).toFixed(3)
+        return {
+            question: `What's ${a} + ${b}?`,
+            answer: (parseFloat(a) + parseFloat(b)).toFixed(3),
+        }
+    }
+
+    const handleDecimalSubmit = () => {
+        if (
+            Number(decimalAnswer).toFixed(3) ===
+            Number(decimalChallenge.answer).toFixed(3)
+        ) {
+            setDecimalFeedback('✅ Correct! 🎉')
+            setScore((s) => s + 1)
+            setTimeout(() => {
+                setDecimalChallenge(generateDecimalChallenge())
+                setDecimalAnswer('')
+                setDecimalFeedback('')
+            }, 1000)
+        } else {
+            setDecimalFeedback('❌ Try again!')
+        }
+    }
+
+    // ---------- Multiple Choice ----------
     const handleAnswer = (challenge, answer) => {
-        // block only if already solved correctly
         if (completed.includes(challenge.id)) return
 
         const isCorrect = answer === challenge.answer
 
-        // Show feedback card (just a string, not object with timeout)
         setCardFeedback((prev) => ({
             ...prev,
             [challenge.id]: isCorrect ? 'correct' : 'wrong',
         }))
 
-        // Hide feedback after 0.5s
         setTimeout(() => {
             setCardFeedback((prev) => {
                 const copy = { ...prev }
@@ -29,13 +64,13 @@ export default function FifthGradePage() {
             })
         }, 500)
 
-        // ✅ ONLY LOCK WHEN CORRECT
         if (isCorrect) {
             setScore((s) => s + 1)
             setCompleted((prev) => [...prev, challenge.id])
         }
     }
 
+    // ---------- Multiplication Table ----------
     const handleTableChange = (row, col, value) => {
         const numericValue = Number(value)
         const correct = row * col
@@ -53,9 +88,10 @@ export default function FifthGradePage() {
         <div className="fifth-grade-page">
             <h1>Fifth Grade Math Fun!</h1>
             <h2>
-                Score: {score} / {mathChallenges.length}
+                Score: {score} / {mathChallenges.length + 5}
             </h2>
 
+            {/* ---------- Multiple Choice Questions ---------- */}
             <div className="questions-grid">
                 {mathChallenges.map((q) => (
                     <div
@@ -67,33 +103,41 @@ export default function FifthGradePage() {
                         <p className="question">{q.question}</p>
 
                         <div className="answers">
-                            {q.options.map((opt, idx) => (
-                                <div
-                                    key={idx}
-                                    className="answer-bubble"
-                                    onClick={() => handleAnswer(q, opt)}
-                                >
-                                    {opt}
-                                </div>
-                            ))}
+                            {q.options.map((opt, idx) => {
+                                let btnClass = 'btn answer-bubble'
+
+                                if (completed.includes(q.id)) {
+                                    btnClass =
+                                        opt === q.answer
+                                            ? 'btn btn--correct'
+                                            : 'btn btn--disabled'
+                                } else if (
+                                    cardFeedback[q.id] === 'wrong' &&
+                                    opt !== q.answer
+                                ) {
+                                    btnClass = 'btn btn--wrong'
+                                }
+
+                                return (
+                                    <button
+                                        key={idx}
+                                        className={btnClass}
+                                        disabled={completed.includes(q.id)}
+                                        onClick={() => handleAnswer(q, opt)}
+                                    >
+                                        {opt}
+                                    </button>
+                                )
+                            })}
                         </div>
 
-                        {/* 🎉 FEEDBACK CARD */}
                         {cardFeedback[q.id] === 'correct' && (
-                            <div className="card-feedback-container">
-                                <div className="card-feedback correct">
-                                    ✅ Correct!
-                                </div>
-                                <div className="card-feedback correct">
-                                    🎉 Great job!
-                                </div>
+                            <div className="feedback correct">
+                                ✅ Correct! 🎉
                             </div>
                         )}
-
                         {cardFeedback[q.id] === 'wrong' && (
-                            <div className="card-feedback wrong">
-                                ❌ Try again!
-                            </div>
+                            <div className="feedback wrong">❌ Try again!</div>
                         )}
 
                         {q.division && (
@@ -105,8 +149,8 @@ export default function FifthGradePage() {
                 ))}
             </div>
 
+            {/* ---------- Multiplication Table ---------- */}
             <h2>Multiplication Table Practice</h2>
-
             <table className="multiplication-table">
                 <tbody>
                     {Array.from({ length: 10 }, (_, r) => {
@@ -155,6 +199,42 @@ export default function FifthGradePage() {
                     })}
                 </tbody>
             </table>
+
+            {/* ---------- Decimal FunModal ---------- */}
+            <h2>Decimal Fun!</h2>
+            <button
+                className="btn btn--primary"
+                onClick={() => setModalOpen(true)}
+            >
+                Try Decimal Challenge!
+            </button>
+
+            <FunModal
+                isOpen={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title="Decimal Challenge"
+            >
+                <p>{decimalChallenge.question}</p>
+                <input
+                    type="number"
+                    step="0.001"
+                    value={decimalAnswer}
+                    onChange={(e) => setDecimalAnswer(e.target.value)}
+                    className="decimal-input"
+                />
+                <button
+                    className="btn btn--primary"
+                    onClick={handleDecimalSubmit}
+                >
+                    Submit
+                </button>
+                {decimalFeedback && <p>{decimalFeedback}</p>}
+            </FunModal>
+
+            {/* ---------- Fraction Balance Game (ADDED LAST) ---------- */}
+            <FractionBalance />
+            {/* ---------- Fraction Pizza Game ---------- */}
+            <FractionPizzaBalance />
         </div>
     )
 }
