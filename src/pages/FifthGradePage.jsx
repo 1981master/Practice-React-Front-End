@@ -1,5 +1,9 @@
 import { useState } from 'react'
 import FunModal from '../components/FunModal'
+import AngleBuilder from '../components/math/AngleBuilder'
+import MathGridPuzzle from '../components/math/MathGridPuzzle'
+import ShapePuzzle from '../components/math/ShapePuzzle'
+import SymmetryMirror from '../components/math/SymmetryMirror'
 import { mathChallenges } from '../data/fifthGradeData'
 import FractionBalance from '../pages/FractionBalance'
 import FractionPizzaBalance from '../pages/FractionPizzaBalance'
@@ -235,6 +239,10 @@ export default function FifthGradePage() {
             <FractionBalance />
             {/* ---------- Fraction Pizza Game ---------- */}
             <FractionPizzaBalance />
+            <ShapePuzzle />
+            <SymmetryMirror />
+            <AngleBuilder />
+            <MathGridPuzzle />
         </div>
     )
 }
