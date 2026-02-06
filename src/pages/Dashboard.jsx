@@ -26,7 +26,6 @@ export default function Dashboard() {
     useEffect(() => {
         if (user) {
             dispatch(fetchKids())
-            console.log('-----user-----', user)
         }
     }, [user, dispatch])
 

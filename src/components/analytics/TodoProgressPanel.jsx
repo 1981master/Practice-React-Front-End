@@ -50,6 +50,14 @@ export default function TodoProgressPanel({ kidId }) {
     const total = todos.length
     const percent = total ? (completed / total) * 100 : 0
 
+    function dateFormat(timestamp) {
+        const date = new Date(timestamp.slice(0, 23)) // trim microseconds
+
+        const pad2 = (n) => n.toString().padStart(2, '0')
+
+        return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}/${date.getFullYear().toString().slice(2)} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`
+    }
+
     return (
         <div className="todo-page">
             <div className="todo-box">
@@ -130,7 +138,9 @@ export default function TodoProgressPanel({ kidId }) {
                                         {t.priority}
                                     </span>
                                 </div>
-
+                                <div style={{ margin: '6px' }}>
+                                    <small>{dateFormat(t.createdAt)}</small>
+                                </div>
                                 <div className="todo-actions">
                                     <button
                                         className="edit-btn"
