@@ -34,12 +34,15 @@ const tokenFromStorage =
 // ========================
 export const loginUser = createAsyncThunk(
     'auth/login',
-    async ({ parentId, password }, { rejectWithValue }) => {
+    async ({ loginIdentifier, password, userType }, { rejectWithValue }) => {
         try {
-            const res = await API.post('/auth/login', { parentId, password })
-            return res.data // { token, user }
+            const res = await API.post('/auth/login', {
+                parentId: loginIdentifier,
+                password,
+                userType,
+            })
+            return res.data
         } catch (err) {
-            // Optional: inspect err.response.data for backend message
             return rejectWithValue('Invalid credentials')
         }
     },

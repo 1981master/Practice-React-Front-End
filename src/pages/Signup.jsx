@@ -11,21 +11,26 @@ export default function Signup() {
     const navigate = useNavigate()
 
     const handleSignup = async () => {
-        if (!loginId || !password) {
+        // Basic validation
+        if (!loginId.trim() || !password.trim()) {
             setMessage('Parent ID and Password are required')
             return
         }
 
         try {
+            // Call your API function to create a new parent
             await signup({
-                loginId,
-                email,
-                password,
+                loginId: loginId.trim(),
+                email: email.trim() || '', // optional
+                password: password.trim(),
             })
 
             setMessage('Signup successful! Please login using your Parent ID.')
+
+            // Redirect to login after short delay
             setTimeout(() => navigate('/'), 1500)
         } catch (err) {
+            // Show backend error message or fallback
             setMessage(err.response?.data || 'Signup failed')
         }
     }
@@ -33,7 +38,7 @@ export default function Signup() {
     return (
         <div className="login-page">
             <div className="login-box">
-                <h1 className="title">Kids Fun Learning</h1>
+                <h1 className="title">🧸 Kids Fun Learning</h1>
                 <h2 className="subtitle">Create Parent Account</h2>
 
                 {/* Parent ID */}
@@ -43,6 +48,7 @@ export default function Signup() {
                     placeholder="Parent ID (used for login)"
                     value={loginId}
                     onChange={(e) => setLoginId(e.target.value)}
+                    autoFocus
                 />
 
                 {/* Email (optional) */}
@@ -63,6 +69,7 @@ export default function Signup() {
                     onChange={(e) => setPassword(e.target.value)}
                 />
 
+                {/* Signup Button */}
                 <button
                     className="login-button"
                     onClick={handleSignup}
@@ -70,8 +77,10 @@ export default function Signup() {
                     Sign Up
                 </button>
 
+                {/* Message */}
                 {message && <p className="login-message">{message}</p>}
 
+                {/* Switch to Login */}
                 <p
                     className="switch-page"
                     style={{ cursor: 'pointer' }}

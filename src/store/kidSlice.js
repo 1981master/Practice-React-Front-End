@@ -17,22 +17,17 @@ export const fetchKids = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token')
-            if (!token) {
-                return rejectWithValue('No token available')
-            }
+            if (!token) return rejectWithValue('No token available')
 
             const res = await API.get('/kids', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             })
 
-            // Ensure we get an array
             const data =
                 typeof res.data === 'string' ? JSON.parse(res.data) : res.data
-            if (!Array.isArray(data)) {
+
+            if (!Array.isArray(data))
                 return rejectWithValue('Invalid response format')
-            }
 
             return data
         } catch (err) {
@@ -49,14 +44,10 @@ export const addKid = createAsyncThunk(
     async (kidData, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token')
-            if (!token) {
-                return rejectWithValue('No token available')
-            }
+            if (!token) return rejectWithValue('No token available')
 
             const res = await API.post('/kids', kidData, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             })
 
             const data =
@@ -97,6 +88,7 @@ const kidSlice = createSlice({
                     ? action.payload
                     : []
                 state.loading = false
+                state.error = null
             })
             .addCase(fetchKids.rejected, (state, action) => {
                 state.loading = false
@@ -112,6 +104,7 @@ const kidSlice = createSlice({
                 if (!Array.isArray(state.items)) state.items = []
                 state.items.push(action.payload)
                 state.loading = false
+                state.error = null
             })
             .addCase(addKid.rejected, (state, action) => {
                 state.loading = false

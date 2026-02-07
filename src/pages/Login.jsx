@@ -5,8 +5,9 @@ import { loginUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Login() {
-    const [parentId, setParentId] = useState('')
+    const [loginId, setLoginId] = useState('') // could be childLoginId or parentId
     const [password, setPassword] = useState('')
+    const [userType, setUserType] = useState('KID') // default to Kid
     const [localError, setLocalError] = useState(null)
 
     const dispatch = useDispatch()
@@ -17,8 +18,10 @@ export default function Login() {
         e.preventDefault()
         setLocalError(null)
 
-        if (!parentId.trim()) {
-            setLocalError('Parent ID is required')
+        if (!loginId.trim()) {
+            setLocalError(
+                `${userType === 'PARENT' ? 'Parent ID' : 'Child Login ID'} is required`,
+            )
             return
         }
         if (!password) {
@@ -27,15 +30,25 @@ export default function Login() {
         }
 
         try {
-            // Dispatch thunk with the exact field expected by backend
             await dispatch(
-                loginUser({ parentId: parentId.trim(), password }),
+                loginUser({
+                    loginIdentifier: loginId.trim(),
+                    password,
+                    userType, // always sent
+                }),
             ).unwrap()
-            navigate('/dashboard') // redirect on success
+
+            navigate('/dashboard')
         } catch (err) {
-            // Show HTML error if backend returns it
             setLocalError(err || 'Login failed')
         }
+    }
+
+    const toggleUserType = () => {
+        setUserType(userType === 'KID' ? 'PARENT' : 'KID')
+        setLoginId('')
+        setPassword('')
+        setLocalError(null)
     }
 
     return (
@@ -43,14 +56,23 @@ export default function Login() {
             <div className="login-box">
                 <div className="logo">🧸 Kids Fun Learning</div>
                 <h2>Welcome!</h2>
-                <p>Enter your Parent ID and password to continue</p>
+                <p>
+                    {userType === 'PARENT'
+                        ? 'Enter your Parent ID'
+                        : 'Enter your Child Login ID'}{' '}
+                    and password
+                </p>
 
                 <form onSubmit={handleLogin}>
                     <input
                         type="text"
-                        placeholder="Parent ID"
-                        value={parentId}
-                        onChange={(e) => setParentId(e.target.value)}
+                        placeholder={
+                            userType === 'PARENT'
+                                ? 'Parent ID'
+                                : 'Child Login ID'
+                        }
+                        value={loginId}
+                        onChange={(e) => setLoginId(e.target.value)}
                         required
                         autoFocus
                     />
@@ -75,9 +97,43 @@ export default function Login() {
                     )}
                 </form>
 
+                {/* Switch Login Type */}
                 <p className="switch-page">
-                    Don’t have an account? <a href="/signup">Sign up</a>
+                    {userType === 'KID' ? (
+                        <>
+                            Logging in as Parent?{' '}
+                            <button
+                                type="button"
+                                onClick={toggleUserType}
+                            >
+                                Parent Login
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            Back to Kid Login?{' '}
+                            <button
+                                type="button"
+                                onClick={toggleUserType}
+                            >
+                                Kid Login
+                            </button>
+                        </>
+                    )}
                 </p>
+
+                {/* Show Signup link only for Parent */}
+                {
+                    <p className="switch-page">
+                        Don’t have an account?{' '}
+                        <span
+                            style={{ cursor: 'pointer', color: 'blue' }}
+                            onClick={() => navigate('/signup')}
+                        >
+                            Sign up
+                        </span>
+                    </p>
+                }
             </div>
         </div>
     )

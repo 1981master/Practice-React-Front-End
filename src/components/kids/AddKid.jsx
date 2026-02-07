@@ -39,6 +39,7 @@ export default function AddKid() {
                 age: age ? Number(age) : null,
                 grade: grade || null,
                 childLoginId: childLoginId.trim(),
+                password: childLoginId.trim(),
             }),
         )
 
