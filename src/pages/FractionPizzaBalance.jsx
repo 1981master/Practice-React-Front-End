@@ -32,8 +32,8 @@ export default function FractionPizza() {
 
     const sumValues = (arr) => arr.reduce((s, f) => s + f.value, 0)
 
-    const canAddFraction = (currentArr, f) =>
-        sumValues(currentArr) + f.value <= 1
+    // const canAddFraction = (currentArr, f) =>
+    //     sumValues(currentArr) + f.value <= 1
 
     const onDrop = (side, e) => {
         const fraction = JSON.parse(e.dataTransfer.getData('fraction'))
@@ -66,7 +66,7 @@ export default function FractionPizza() {
             const sliceAngle = f.value * 360
             const slice = (
                 <path
-                    key={f.id}
+                    key={Math.random()}
                     d={describeArc(
                         90,
                         90,
@@ -131,7 +131,7 @@ export default function FractionPizza() {
             <div className="fraction-bank grid-2-rows">
                 {fractions.map((f) => (
                     <div
-                        key={f.id}
+                        key={Math.random()}
                         className="fraction-tile"
                         draggable
                         onDragStart={(e) =>

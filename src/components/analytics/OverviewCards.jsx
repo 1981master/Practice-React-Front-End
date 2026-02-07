@@ -7,11 +7,14 @@ export default function OverviewCards({ kidId }) {
 
     useEffect(() => {
         axios
-            .get(`http://localhost:8081/api/analytics/kids/${kidId}/overview`, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+            .get(
+                `${process.env.REACT_APP_API_URL}/analytics/kids/${kidId}/overview`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    },
                 },
-            })
+            )
             .then((res) => setData(res.data))
             .catch((err) => {
                 console.error('Overview API error:', err.response?.data || err)

@@ -6,7 +6,7 @@ import axios from 'axios'
 // Axios instance for backend
 // ============================
 const API = axios.create({
-    baseURL: 'http://localhost:8081/api', // backend URL
+    baseURL: process.env.REACT_APP_API_URL,
 })
 
 // ============================
@@ -18,7 +18,6 @@ export const fetchKids = createAsyncThunk(
         try {
             const token = localStorage.getItem('token')
             if (!token) {
-                console.error('No token available for fetchKids')
                 return rejectWithValue('No token available')
             }
 
@@ -32,13 +31,11 @@ export const fetchKids = createAsyncThunk(
             const data =
                 typeof res.data === 'string' ? JSON.parse(res.data) : res.data
             if (!Array.isArray(data)) {
-                console.error('Expected an array but got:', data)
                 return rejectWithValue('Invalid response format')
             }
 
             return data
         } catch (err) {
-            console.error('Error fetching kids:', err)
             return rejectWithValue('Failed to fetch kids')
         }
     },
@@ -53,7 +50,6 @@ export const addKid = createAsyncThunk(
         try {
             const token = localStorage.getItem('token')
             if (!token) {
-                console.error('No token available for addKid')
                 return rejectWithValue('No token available')
             }
 
@@ -65,10 +61,8 @@ export const addKid = createAsyncThunk(
 
             const data =
                 typeof res.data === 'string' ? JSON.parse(res.data) : res.data
-            console.log('Kid added:', data)
             return data
         } catch (err) {
-            console.error('Error adding kid:', err)
             return rejectWithValue('Failed to add kid')
         }
     },

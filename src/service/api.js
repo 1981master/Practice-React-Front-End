@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid' // ✅ import UUID
 export default async function getAllCounters() {
     try {
         const response = await axios.get(
-            'http://localhost:8081/counter/allCounters',
+            `${process.env.REACT_APP_API_BASE_URL}/counter/allCounters`,
         )
         console.log('DATA:', JSON.stringify(response.data, null, 2))
 

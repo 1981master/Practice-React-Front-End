@@ -7,7 +7,7 @@ export default function RecommendationsPanel({ kidId }) {
     useEffect(() => {
         axios
             .get(
-                `http://localhost:8081/api/analytics/kids/${kidId}/recommendations`,
+                `${process.env.REACT_APP_API_URL}/analytics/kids/${kidId}/recommendations`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,

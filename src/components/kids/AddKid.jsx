@@ -8,7 +8,7 @@ export default function AddKid() {
     const [name, setName] = useState('')
     const [age, setAge] = useState('')
     const [grade, setGrade] = useState('')
-    const [childLoginId, setChildLoginId] = useState('') // New field for childLoginId
+    const [childLoginId, setChildLoginId] = useState('')
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -38,7 +38,7 @@ export default function AddKid() {
                 name: name.trim(),
                 age: age ? Number(age) : null,
                 grade: grade || null,
-                childLoginId: childLoginId.trim(), // Add childLoginId to the request
+                childLoginId: childLoginId.trim(),
             }),
         )
 

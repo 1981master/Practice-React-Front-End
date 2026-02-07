@@ -5,36 +5,31 @@ import axios from 'axios'
 // Axios instance for backend
 // ========================
 const API = axios.create({
-    baseURL: 'http://localhost:8081/api', // Spring Boot backend
+    baseURL: process.env.REACT_APP_API_URL, // e.g., http://localhost:8081/api
 })
 
-// ========================
-// Safely load persisted todos (optional, for persistence)
-// ========================
-let todosFromStorage = []
-const todosStr = localStorage.getItem('todos')
-if (todosStr && todosStr !== 'undefined') {
-    try {
-        todosFromStorage = JSON.parse(todosStr)
-    } catch (e) {
-        console.warn('Invalid todos in localStorage, clearing it', e)
-        localStorage.removeItem('todos')
-        todosFromStorage = []
-    }
-}
+// Attach token automatically before every request
+API.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token')
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`
+        }
+        return config
+    },
+    (error) => Promise.reject(error),
+)
 
 // ========================
-// Async thunk: fetch todos
+// Async thunks
 // ========================
+
 export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
     async (kidId, { rejectWithValue }) => {
         try {
-            const token = localStorage.getItem('token')
-            const res = await API.get(`/todo/${kidId}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            return res.data // array of todos
+            const res = await API.get(`/todo/${kidId}`)
+            return res.data
         } catch (err) {
             return rejectWithValue(
                 err.response?.data || 'Failed to fetch todos',
@@ -43,18 +38,11 @@ export const fetchTodos = createAsyncThunk(
     },
 )
 
-// ========================
-// Async thunk: add todo
-// ========================
 export const addTodo = createAsyncThunk(
     'todos/addTodo',
     async (todo, { rejectWithValue }) => {
         try {
-            const token = localStorage.getItem('token')
-            const res = await API.post('/todo/saveToDo', todo, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
-            console.log('Add NEW ToDo: ', res.data)
+            const res = await API.post('/todo/saveToDo', todo)
             return res.data
         } catch (err) {
             return rejectWithValue(err.response?.data || 'Failed to add todo')
@@ -62,19 +50,13 @@ export const addTodo = createAsyncThunk(
     },
 )
 
-// ========================
-// Async thunk: toggle todo
-// ========================
 export const toggleTodo = createAsyncThunk(
     'todos/toggleTodo',
     async (id, { getState, rejectWithValue }) => {
         try {
-            const token = localStorage.getItem('token')
             const todo = getState().todos.items.find((t) => t.id === id)
             const updated = { ...todo, completed: !todo.completed }
-            const res = await API.put(`/todo/${id}`, updated, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
+            const res = await API.put(`/todo/${id}`, updated)
             return res.data
         } catch (err) {
             return rejectWithValue(
@@ -84,17 +66,11 @@ export const toggleTodo = createAsyncThunk(
     },
 )
 
-// ========================
-// Async thunk: delete todo
-// ========================
 export const deleteTodo = createAsyncThunk(
     'todos/deleteTodo',
     async (id, { rejectWithValue }) => {
         try {
-            const token = localStorage.getItem('token')
-            await API.delete(`/todo/${id}`, {
-                headers: { Authorization: `Bearer ${token}` },
-            })
+            await API.delete(`/todo/${id}`)
             return id
         } catch (err) {
             return rejectWithValue(
@@ -110,14 +86,13 @@ export const deleteTodo = createAsyncThunk(
 const todoSlice = createSlice({
     name: 'todos',
     initialState: {
-        items: todosFromStorage,
         loading: false,
         error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // Fetch
+            // ===== Fetch =====
             .addCase(fetchTodos.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -127,7 +102,6 @@ const todoSlice = createSlice({
                     ? action.payload
                     : []
                 state.loading = false
-                state.error = null
                 localStorage.setItem('todos', JSON.stringify(state.items))
             })
             .addCase(fetchTodos.rejected, (state, action) => {
@@ -135,7 +109,7 @@ const todoSlice = createSlice({
                 state.error = action.payload || 'Failed to fetch todos'
             })
 
-            // Add
+            // ===== Add =====
             .addCase(addTodo.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -143,7 +117,6 @@ const todoSlice = createSlice({
             .addCase(addTodo.fulfilled, (state, action) => {
                 state.items.push(action.payload)
                 state.loading = false
-                state.error = null
                 localStorage.setItem('todos', JSON.stringify(state.items))
             })
             .addCase(addTodo.rejected, (state, action) => {
@@ -151,7 +124,7 @@ const todoSlice = createSlice({
                 state.error = action.payload || 'Failed to add todo'
             })
 
-            // Toggle
+            // ===== Toggle =====
             .addCase(toggleTodo.fulfilled, (state, action) => {
                 const index = state.items.findIndex(
                     (t) => t.id === action.payload.id,
@@ -160,7 +133,7 @@ const todoSlice = createSlice({
                 localStorage.setItem('todos', JSON.stringify(state.items))
             })
 
-            // Delete
+            // ===== Delete =====
             .addCase(deleteTodo.fulfilled, (state, action) => {
                 state.items = state.items.filter((t) => t.id !== action.payload)
                 localStorage.setItem('todos', JSON.stringify(state.items))

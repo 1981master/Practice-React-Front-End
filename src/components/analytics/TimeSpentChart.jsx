@@ -15,7 +15,7 @@ export default function TimeSpentChart({ kidId }) {
     useEffect(() => {
         axios
             .get(
-                `http://localhost:8081/api/analytics/kids/${kidId}/time-series`,
+                `${process.env.REACT_APP_API_URL}/analytics/kids/${kidId}/time-series`,
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,

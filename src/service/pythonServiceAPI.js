@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export default async function callPythonHealth() {
     try {
-        const response = await axios.get('http://localhost:8000/')
+        const response = await axios.get(process.env.REACT_APP_API_BASE_URL)
         console.log('Health API response:', response.data)
         return response.data
     } catch (error) {
