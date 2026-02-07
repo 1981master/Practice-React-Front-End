@@ -47,7 +47,7 @@ export default function Dashboard() {
             <div className="dashboard-box">
                 <div className="logo">🧸</div>
 
-                <h2>Welcome, {user.email || user.parentId}</h2>
+                <h2>Welcome {` ${user.name || ''}`}</h2>
 
                 {hasPermission('VIEW_KIDS') && (
                     <div className="add-kid-section">
@@ -102,7 +102,6 @@ export default function Dashboard() {
                 {/* 👶 Kid should see this */}
                 {!hasPermission('VIEW_ANALYTICS') && (
                     <>
-                        <h2 style={{ color: 'red' }}>TODO SHOULD BE HERE</h2>
                         <TodoProgressPanel kidId={user.id} />
                     </>
                 )}
