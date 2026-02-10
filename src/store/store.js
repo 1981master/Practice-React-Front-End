@@ -1,4 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
+import subjectReducer from '../store/subjectSlice'
+import topicReducer from '../store/topicSlice'
 import authReducer from './authSlice'
 import kidReducer from './kidSlice'
 import todoReducer from './todoSlice'
@@ -82,6 +84,8 @@ export const store = configureStore({
         kids: kidReducer,
         ui: uiReducer,
         todos: todoReducer,
+        subjects: subjectReducer,
+        topics: topicReducer,
     },
     middleware: (getDefaultMiddleware) =>
         process.env.NODE_ENV !== 'production'

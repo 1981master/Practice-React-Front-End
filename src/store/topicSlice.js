@@ -17,14 +17,12 @@ export const fetchTopics = createAsyncThunk(
     async (_, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token')
-            console.log('Token:', token)
             if (!token) return rejectWithValue('No token available')
 
             const res = await API.get('/topics', {
                 headers: { Authorization: `Bearer ${token}` },
             })
 
-            console.log('Response:', res.data)
             const data =
                 typeof res.data === 'string' ? JSON.parse(res.data) : res.data
             return data

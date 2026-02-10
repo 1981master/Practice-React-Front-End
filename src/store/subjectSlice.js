@@ -1,38 +1,43 @@
 // src/store/subjectSlice.js
-import { createAsyncThunk, createSelector, createSlice } from '@reduxjs/toolkit'
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import axios from 'axios'
 
 // ============================
 // Axios instance
 // ============================
 const API = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL, // e.g. http://localhost:8081/api
 })
 
 // ============================
-// Async thunk to fetch all subjects
+// Async thunk: fetch all subjects
 // ============================
 export const fetchSubjects = createAsyncThunk(
     'subjects/fetchAll',
     async (_, { rejectWithValue }) => {
         try {
             const token = localStorage.getItem('token')
-            if (!token) return rejectWithValue('No token available')
+            if (!token) {
+                return rejectWithValue('Authentication token missing')
+            }
 
-            const res = await API.get('/subjects', {
-                headers: { Authorization: `Bearer ${token}` },
+            const response = await API.get('/subjects', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             })
 
-            const data =
-                typeof res.data === 'string' ? JSON.parse(res.data) : res.data
+            // Axios already parses JSON
+            if (!Array.isArray(response.data)) {
+                return rejectWithValue('Invalid subjects response format')
+            }
 
-            if (!Array.isArray(data))
-                return rejectWithValue('Invalid response format')
-
-            return data
-        } catch (err) {
+            return response.data
+        } catch (error) {
             return rejectWithValue(
-                err.response?.data || 'Failed to fetch subjects',
+                error.response?.data?.message ||
+                    error.response?.data ||
+                    'Failed to fetch subjects',
             )
         }
     },
@@ -44,12 +49,12 @@ export const fetchSubjects = createAsyncThunk(
 const subjectSlice = createSlice({
     name: 'subjects',
     initialState: {
-        items: [], // list of subjects
+        items: [], // [{ id, name, topics: [] }]
         loading: false,
         error: null,
     },
     reducers: {
-        clearSubjectError: (state) => {
+        clearSubjectError(state) {
             state.error = null
         },
     },
@@ -60,40 +65,28 @@ const subjectSlice = createSlice({
                 state.error = null
             })
             .addCase(fetchSubjects.fulfilled, (state, action) => {
-                state.items = Array.isArray(action.payload)
-                    ? action.payload
-                    : []
+                state.items = action.payload
                 state.loading = false
-                state.error = null
             })
             .addCase(fetchSubjects.rejected, (state, action) => {
                 state.loading = false
-                state.error = action.payload || 'Failed to fetch subjects'
+                state.error = action.payload
             })
     },
 })
 
 // ============================
-// Actions
+// Exports
 // ============================
 export const { clearSubjectError } = subjectSlice.actions
 
 // ============================
-// Memoized selectors
+// Selectors (SAFE)
 // ============================
-export const selectSubjectsItems = createSelector(
-    (state) => state.subjects.items,
-    (items) => items || [],
-)
+export const selectSubjectsItems = (state) => state.subjects?.items ?? []
 
-export const selectSubjectsLoading = createSelector(
-    (state) => state.subjects.loading,
-    (loading) => loading,
-)
+export const selectSubjectsLoading = (state) => state.subjects?.loading ?? false
 
-export const selectSubjectsError = createSelector(
-    (state) => state.subjects.error,
-    (error) => error,
-)
+export const selectSubjectsError = (state) => state.subjects?.error ?? null
 
 export default subjectSlice.reducer

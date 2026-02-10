@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Analytics from '../components/analytics/Analytics'
 import TodoProgressPanel from '../components/analytics/TodoProgressPanel'
 import AddKid from '../components/kids/AddKid'
+import SubjectList from '../components/subject/SubjectList'
 import TopicProgress from '../components/topics/TopicProgress'
 import {
     fetchKids,
@@ -98,6 +99,10 @@ export default function Dashboard() {
                 )}
 
                 {hasPermission('VIEW_TOPICS') && <TopicProgress />}
+                <div style={{ padding: 24 }}>
+                    <h1>Subjects</h1>
+                    <SubjectList />
+                </div>
 
                 {/* 👶 Kid should see this */}
                 {!hasPermission('VIEW_ANALYTICS') && (

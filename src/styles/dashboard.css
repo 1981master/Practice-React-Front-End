@@ -93,3 +93,45 @@
     color: #e74c3c;
     font-size: 0.9rem;
 }
+/* Subject Card */
+.subject-card {
+    background: #ffffff;
+    border-radius: 18px;
+    padding: 1.5rem;
+    margin-top: 1.5rem;
+    box-shadow: 0 6px 15px rgba(62, 58, 102, 0.2);
+}
+
+/* Subject Title */
+.subject-title {
+    font-size: 1.6rem;
+    color: #3e3a66;
+    margin-bottom: 1rem;
+}
+
+/* Topic container */
+.topic-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+}
+
+/* Topic pill */
+.topic-pill {
+    background: #7a78d0;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    box-shadow: 0 4px 8px rgba(62, 58, 102, 0.25);
+    transition:
+        transform 0.2s,
+        background 0.2s;
+    cursor: default;
+}
+
+.topic-pill:hover {
+    transform: scale(1.05);
+    background: #9553e0;
+}
