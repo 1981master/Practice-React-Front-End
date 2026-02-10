@@ -1,6 +1,7 @@
 import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { signup } from '../api/authApi'
+import { signupUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Signup() {
@@ -9,6 +10,8 @@ export default function Signup() {
     const [password, setPassword] = useState('')
     const [message, setMessage] = useState('')
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { loading, error } = useSelector((state) => state.auth)
 
     const handleSignup = async () => {
         // Basic validation
@@ -19,19 +22,33 @@ export default function Signup() {
 
         try {
             // Call your API function to create a new parent
-            await signup({
-                loginId: loginId.trim(),
-                email: email.trim() || '', // optional
-                password: password.trim(),
-            })
+            // await signup({
+            //     loginId: loginId.trim(),
+            //     email: email.trim() || '', // optional
+            //     password: password.trim(),
+            // })
+            const resultAction = await dispatch(
+                signupUser({
+                    loginId: loginId.trim(),
+                    email: email.trim() || '',
+                    password: password.trim(),
+                }),
+            )
 
-            setMessage('Signup successful! Please login using your Parent ID.')
+            // setMessage('Signup successful! Please login using your Parent ID.')
+            if (signupUser.fulfilled.match(resultAction)) {
+                setMessage('Signup successful! Redirecting to login...')
+                setTimeout(() => navigate('/'), 1500)
+            } else {
+                setMessage(resultAction.payload || 'Signup failed')
+            }
 
             // Redirect to login after short delay
             setTimeout(() => navigate('/'), 1500)
         } catch (err) {
             // Show backend error message or fallback
-            setMessage(err.response?.data || 'Signup failed')
+            // setMessage(err.response?.data || 'Signup failed')
+            setMessage('Signup failed')
         }
     }
 
@@ -73,12 +90,15 @@ export default function Signup() {
                 <button
                     className="login-button"
                     onClick={handleSignup}
+                    disabled={loading}
                 >
                     Sign Up
+                    {loading ? 'Signing up...' : 'Sign Up'}
                 </button>
 
                 {/* Message */}
                 {message && <p className="login-message">{message}</p>}
+                {error && <p className="login-message error">{error}</p>}
 
                 {/* Switch to Login */}
                 <p

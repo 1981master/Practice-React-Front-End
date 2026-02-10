@@ -12,7 +12,6 @@ const API = axios.create({
 // Safely load persisted token/user from localStorage
 // ========================
 let userFromStorage = null
-
 const userStr = localStorage.getItem('user')
 if (userStr && userStr !== 'undefined') {
     try {
@@ -36,14 +35,15 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async ({ loginIdentifier, password, userType }, { rejectWithValue }) => {
         try {
+            // ⚡ FIXED: send loginIdentifier instead of parentId
             const res = await API.post('/auth/login', {
-                parentId: loginIdentifier,
+                loginIdentifier,
                 password,
                 userType,
             })
             return res.data
         } catch (err) {
-            return rejectWithValue('Invalid credentials')
+            return rejectWithValue(err.response?.data || 'Invalid credentials')
         }
     },
 )

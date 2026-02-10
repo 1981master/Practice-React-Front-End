@@ -32,10 +32,23 @@
     transition: all 0.3s ease;
 }
 
-.body-wrapper.sidebar-collapsed {
-    grid-template-columns: 0 1fr;
+/* Collapsed sidebar */
+.body-wrapper.sidebar-collapsed .sidebar {
+    width: 60px; /* or 0px to fully hide */
+    overflow: hidden;
+    transition: width 0.3s ease;
+}
+/* Optional: hide text inside collapsed sidebar */
+.body-wrapper.sidebar-collapsed .sidebar .sidebar-links li {
+    opacity: 0; /* fade out items */
+    pointer-events: none; /* prevent clicks */
+    transition: opacity 0.3s ease;
 }
 
+/* Optional: if you want icons only, leave bullet dot visible */
+.body-wrapper.sidebar-collapsed .sidebar .sidebar-links li::before {
+    opacity: 1; /* keep dot visible if you want */
+}
 .content {
     padding: 20px;
     overflow-y: auto;
@@ -48,11 +61,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 0 2%;
-    background: radial-gradient(ellipse at center, #1e293b 0%, #0f172a 70%);
-    color: rgb(85, 76, 76);
+    background: radial-gradient(ellipse at center, #2c2b3c 0%, #4b3b6b 70%);
+    color: #e0e0e0;
     box-shadow:
         inset 0 -1px 0 rgba(255, 255, 255, 0.05),
-        0 0.5% 2% rgba(15, 23, 42, 0.35);
+        0 2px 6px rgba(15, 23, 42, 0.35);
+    transition: all 0.3s ease;
 }
 
 .nav-left {
@@ -62,32 +76,37 @@
 }
 
 .logo {
-    font-size: 1.2em;
+    font-size: 1.3em;
     font-weight: 600;
+    color: #f0f0ff;
 }
 
 .nav-links {
     display: flex;
     justify-content: center;
     list-style: none;
-    gap: 24px;
+    gap: 20px;
 }
 
 .nav-links li {
     cursor: pointer;
-    padding: 6px 12px;
-    border-radius: 6px;
+    padding: 8px 14px;
+    border-radius: 8px;
+    color: #d1d5db;
+    font-weight: 500;
+    transition: all 0.3s ease;
 }
 
 .nav-links li:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: radial-gradient(circle at center, #5b4d8c 0%, #7c6fc0 80%);
+    color: #fff9f0;
     transform: translateY(-2px);
 }
 
 .nav-links li.active {
-    background: radial-gradient(circle at center, #ffffff 0%, #e5e7eb 80%);
-    color: #0f172a;
-    font-weight: 500;
+    background: radial-gradient(circle at center, #a5b4fc 0%, #818cf8 80%);
+    color: #1e1e2f;
+    font-weight: 600;
 }
 
 .nav-actions {
@@ -103,6 +122,12 @@
     outline: none;
     background: #f1f5f9;
     font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search-box input:focus {
+    background: #e0e7ff;
+    box-shadow: 0 0 4px rgba(130, 90, 230, 0.5);
 }
 
 .hamburger-btn {
@@ -114,14 +139,19 @@
     background: rgba(255, 255, 255, 0.15);
     color: white;
     font-size: 20px;
+    transition: background 0.3s ease;
+}
+
+.hamburger-btn:hover {
+    background: rgba(255, 255, 255, 0.25);
 }
 
 .nav-link {
     text-decoration: none;
-    color: #ccc;
+    color: #131010;
     padding: 8px 12px;
     border-radius: 6px;
-    transition: var(--transition-all);
+    transition: all 0.3s ease;
 }
 
 .nav-link:hover {
@@ -129,43 +159,130 @@
 }
 
 .nav-link.active {
-    background: var(--color-primary-dark);
+    background: #818cf8;
     color: white;
     font-weight: 600;
 }
 
-.sidebar .nav-link.active {
-    background: #1e40af;
-}
-
 /* ---------------- SIDEBAR ---------------- */
 .sidebar {
-    background: radial-gradient(ellipse at top, #ffffff 0%, #f1f5f9 70%);
-    padding: 20px;
-    border-right: 1px solid #e5e7eb;
-    overflow: auto;
+    background-color: #3e3a66;
+    padding: 1rem 25px 1rem 1rem;
+    width: 220px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: visible;
 }
 
+/* Sidebar list: vertical stack */
 .sidebar-links {
     list-style: none;
+    padding-left: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
-.sidebar-links li {
-    padding: 10px 12px;
+/* Base sticky note style */
+.sidebar-item {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0.5rem 1rem 0.5rem 1.5rem; /* padding for content */
+    color: #050404;
+    font-weight: 600;
+    border-radius: 8px; /* rounded corners for main note */
+    width: 140px; /* uniform width */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    border-radius: 6px;
-    color: #334155;
+    user-select: none;
+    text-decoration: none;
+    transition:
+        transform 0.2s ease,
+        filter 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-.sidebar-links li:hover {
-    background: radial-gradient(circle at center, #8088a3 0%, #3c3f46 80%);
-    color: var(--color-primary-dark);
+/* Left bullet dot */
+.sidebar-item::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: white; /* white dot for all notes */
 }
 
-.sidebar-links li.active {
-    background: radial-gradient(circle at center, #dbeafe 0%, #bfdbfe 80%);
-    color: #1e40af;
-    font-weight: 500;
+/* Right half-circle “head” */
+.sidebar-item::after {
+    content: '';
+    position: absolute;
+    right: -10px; /* half outside the note */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px; /* total width of half-circle */
+    height: 40px; /* height of half-circle */
+    background-color: white; /* same as note color */
+    border-radius: 50%; /* make full circle */
+    /* show only right half with rounded edges */
+    opacity: 0.8;
+}
+
+/* Hover effect */
+.sidebar-item:hover {
+    filter: brightness(1.2);
+    transform: translateX(5px);
+}
+
+/* Hover effect */
+.sidebar-item:hover {
+    filter: brightness(1.2);
+    transform: translateX(5px);
+}
+
+/* Active NavLink highlight */
+.nav-link.active {
+    background-color: #7a78d0 !important;
+    color: #fff !important;
+}
+
+/* Color classes for sticky notes (background + text + arrow + dot) */
+.sticky-yellow {
+    background-color: #f9d71c;
+    color: #6b5200;
+}
+.sticky-pink {
+    background-color: #ff6f91;
+    color: #57001b;
+}
+.sticky-green {
+    background-color: #6bcf7a;
+    color: #0c0f0c;
+}
+.sticky-blue {
+    background-color: #4a90e2;
+    color: #08306b;
+}
+.sticky-orange {
+    background-color: #ff9f43;
+    color: #663d00;
+}
+.sticky-purple {
+    background-color: #9b59b6;
+    color: #3c1c52;
+}
+.sticky-red {
+    background-color: #e74c3c;
+    color: #560000;
 }
 
 /* ---------------- RESPONSIVE ---------------- */
@@ -249,7 +366,6 @@
 .btn:active {
     transform: scale(0.96);
 }
-
 /* ---------------- PAGE CENTER ---------------- */
 .page-center {
     min-height: 100vh;

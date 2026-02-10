@@ -5,9 +5,9 @@ import { loginUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Login() {
-    const [loginId, setLoginId] = useState('') // could be childLoginId or parentId
+    const [loginId, setLoginId] = useState('')
     const [password, setPassword] = useState('')
-    const [userType, setUserType] = useState('KID') // default to Kid
+    const [userType, setUserType] = useState('KID')
     const [localError, setLocalError] = useState(null)
 
     const dispatch = useDispatch()
@@ -20,10 +20,13 @@ export default function Login() {
 
         if (!loginId.trim()) {
             setLocalError(
-                `${userType === 'PARENT' ? 'Parent ID' : 'Child Login ID'} is required`,
+                userType === 'PARENT'
+                    ? 'Parent ID is required'
+                    : 'Child Login ID is required',
             )
             return
         }
+
         if (!password) {
             setLocalError('Password is required')
             return
@@ -34,7 +37,7 @@ export default function Login() {
                 loginUser({
                     loginIdentifier: loginId.trim(),
                     password,
-                    userType, // always sent
+                    userType,
                 }),
             ).unwrap()
 
@@ -45,6 +48,7 @@ export default function Login() {
     }
 
     const toggleUserType = () => {
+        if (loading) return
         setUserType(userType === 'KID' ? 'PARENT' : 'KID')
         setLoginId('')
         setPassword('')
@@ -73,7 +77,6 @@ export default function Login() {
                         }
                         value={loginId}
                         onChange={(e) => setLoginId(e.target.value)}
-                        required
                         autoFocus
                     />
 
@@ -82,18 +85,20 @@ export default function Login() {
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        required
                     />
 
                     <button
+                        className="login-button"
                         type="submit"
                         disabled={loading}
                     >
                         {loading ? 'Logging in...' : 'Login'}
                     </button>
 
-                    {(error || localError) && (
-                        <pre className="error">{localError || error}</pre>
+                    {(localError || error) && (
+                        <p className="login-message error">
+                            {localError || error}
+                        </p>
                     )}
                 </form>
 
@@ -105,6 +110,7 @@ export default function Login() {
                             <button
                                 type="button"
                                 onClick={toggleUserType}
+                                disabled={loading}
                             >
                                 Parent Login
                             </button>
@@ -115,6 +121,7 @@ export default function Login() {
                             <button
                                 type="button"
                                 onClick={toggleUserType}
+                                disabled={loading}
                             >
                                 Kid Login
                             </button>
@@ -122,8 +129,8 @@ export default function Login() {
                     )}
                 </p>
 
-                {/* Show Signup link only for Parent */}
-                {
+                {/* Signup only for Parent */}
+                {userType === 'PARENT' && (
                     <p className="switch-page">
                         Don’t have an account?{' '}
                         <span
@@ -133,7 +140,7 @@ export default function Login() {
                             Sign up
                         </span>
                     </p>
-                }
+                )}
             </div>
         </div>
     )

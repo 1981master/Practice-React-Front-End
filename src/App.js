@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend' // Import the HTML5Backend
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { NavLink, useLocation, useNavigate } from 'react-router-dom'
 import AppRoutes from './routes/AppRoutes'
+
+import './styles/dashboard.css'
 import './styles/PracticeArea.css'
 import './styles/style.css'
 
@@ -10,6 +12,7 @@ export default function App() {
     const [sidebarOpen, setSidebarOpen] = useState(true)
     const location = useLocation()
     const navigate = useNavigate()
+
     const isLoginPage =
         location.pathname === '/' || location.pathname === '/signup'
 
@@ -17,11 +20,8 @@ export default function App() {
         isActive ? 'nav-link active' : 'nav-link'
 
     const handleSignOut = () => {
-        // Clear auth info (token/user)
         localStorage.removeItem('token')
         localStorage.removeItem('user')
-
-        // Navigate to login page and replace history
         navigate('/', { replace: true })
     }
 
@@ -29,8 +29,29 @@ export default function App() {
         return <AppRoutes /> // Login/signup full screen
     }
 
+    // Sticky note colors
+    const colors = [
+        'sticky-yellow',
+        'sticky-pink',
+        'sticky-green',
+        'sticky-blue',
+        'sticky-orange',
+        'sticky-purple',
+    ]
+
+    // Sidebar items
+    const sidebarItems = [
+        { to: '/dashboard', label: 'Dashboard' },
+        { to: '/kindergarten', label: 'Kindergarten' },
+        { to: '/first-grade', label: 'First Grade' },
+        { to: '/fifth-grade', label: 'Fifth Grade' },
+        { to: '/analytics', label: 'Analytics' },
+        { to: '/settings', label: 'Settings' },
+    ]
+
     return (
         <div className="page">
+            {/* Navbar */}
             <nav className="navbar">
                 <div className="nav-left">
                     <button
@@ -69,76 +90,42 @@ export default function App() {
                 </ul>
             </nav>
 
+            {/* Sidebar + Main content */}
             <div
                 className={`body-wrapper ${
                     sidebarOpen ? 'sidebar-open' : 'sidebar-collapsed'
                 }`}
             >
+                {/* Sidebar */}
                 <aside className="sidebar">
                     <ul className="sidebar-links">
-                        <li>
-                            <NavLink
-                                to="/dashboard"
-                                className={linkClass}
+                        {sidebarItems.map((item, i) => (
+                            <li
+                                key={item.to}
+                                className={`sidebar-item ${colors[i % colors.length]}`}
                             >
-                                Dashboard
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/kindergarten"
-                                className={linkClass}
-                            >
-                                Kindergarten
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/first-grade"
-                                className={linkClass}
-                            >
-                                First Grade
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/fifth-grade"
-                                className={linkClass}
-                            >
-                                Fifth Grade
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/analytics"
-                                className={linkClass}
-                            >
-                                Analytics
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/settings"
-                                className={linkClass}
-                            >
-                                Settings
-                            </NavLink>
-                        </li>
-                    </ul>
+                                <NavLink
+                                    to={item.to}
+                                    className={linkClass}
+                                >
+                                    {item.label}
+                                </NavLink>
+                            </li>
+                        ))}
 
-                    {/* Sign Out button */}
-                    <div>
-                        <button
-                            onClick={handleSignOut}
-                            className="nav-link"
+                        {/* Sign Out as a sticky note at the end */}
+                        <li
+                            className="sidebar-item sticky-red"
+                            onClick={handleSignOut} // whole note is clickable
+                            style={{ marginTop: 'auto' }} // pushes it to bottom
                         >
                             Sign Out
-                        </button>
-                    </div>
+                        </li>
+                    </ul>
                 </aside>
 
+                {/* Main Content */}
                 <main className="content">
-                    {/* Wrap your app routes with DndProvider */}
                     <DndProvider backend={HTML5Backend}>
                         <AppRoutes />
                     </DndProvider>
