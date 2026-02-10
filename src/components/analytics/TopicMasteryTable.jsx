@@ -1,19 +1,16 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-    fetchTopics,
-    selectTopicsError,
-    selectTopicsItems,
-    selectTopicsLoading,
-} from '../../store/topicSlice'
+import { fetchTopics } from '../../store/topicSlice'
 
 export default function TopicMasteryTable({ kidId }) {
     const dispatch = useDispatch()
 
-    // Safe selectors
-    const topics = useSelector(selectTopicsItems) || []
-    const loading = useSelector(selectTopicsLoading) || false
-    const error = useSelector(selectTopicsError) || null
+    // Provide default empty object to avoid destructure error
+    const {
+        topics = [],
+        loading = false,
+        error = null,
+    } = useSelector((state) => state.topics || {})
 
     useEffect(() => {
         if (kidId) dispatch(fetchTopics(kidId))

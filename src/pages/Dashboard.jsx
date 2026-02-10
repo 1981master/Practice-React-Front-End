@@ -31,14 +31,14 @@ export default function Dashboard() {
     if (!user) return <p>Loading...</p>
 
     const hasPermission = (perm) => {
-        console.log('🔐 Checking permission:', perm)
-        console.log('👤 User:', user)
-        console.log('📜 User permissions:', user.permissions)
+        // console.log('🔐 Checking permission:', perm)
+        // console.log('👤 User:', user)
+        // console.log('📜 User permissions:', user.permissions)
 
         const result =
             Array.isArray(user.permissions) && user.permissions.includes(perm)
 
-        console.log(`✅ Result for ${perm}:`, result)
+        // console.log(`✅ Result for ${perm}:`, result)
         return result
     }
 

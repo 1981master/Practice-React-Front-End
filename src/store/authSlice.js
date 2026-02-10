@@ -35,7 +35,6 @@ export const loginUser = createAsyncThunk(
     'auth/login',
     async ({ loginIdentifier, password, userType }, { rejectWithValue }) => {
         try {
-            // ⚡ FIXED: send loginIdentifier instead of parentId
             const res = await API.post('/auth/login', {
                 loginIdentifier,
                 password,
@@ -81,6 +80,9 @@ const authSlice = createSlice({
             state.loading = false
             state.error = null
             localStorage.clear()
+        },
+        clearError: (state) => {
+            state.error = null
         },
     },
     extraReducers: (builder) => {
@@ -133,3 +135,4 @@ const authSlice = createSlice({
 
 export const { logout } = authSlice.actions
 export default authSlice.reducer
+export const { clearError } = authSlice.actions

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { signupUser } from '../store/authSlice'
+import { clearError, signupUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Signup() {
@@ -38,13 +38,14 @@ export default function Signup() {
             // setMessage('Signup successful! Please login using your Parent ID.')
             if (signupUser.fulfilled.match(resultAction)) {
                 setMessage('Signup successful! Redirecting to login...')
+                dispatch(clearError())
                 setTimeout(() => navigate('/'), 1500)
             } else {
                 setMessage(resultAction.payload || 'Signup failed')
             }
 
-            // Redirect to login after short delay
-            setTimeout(() => navigate('/'), 1500)
+            dispatch(clearError())
+            setTimeout(() => navigate('/'), 1000)
         } catch (err) {
             // Show backend error message or fallback
             // setMessage(err.response?.data || 'Signup failed')
@@ -94,7 +95,6 @@ export default function Signup() {
                     disabled={loading}
                 >
                     Sign Up
-                    {loading ? 'Signing up...' : 'Sign Up'}
                 </button>
 
                 {/* Message */}
@@ -109,7 +109,10 @@ export default function Signup() {
                     Already have an account?{' '}
                     <span
                         className="signin-signup"
-                        onClick={() => navigate('/')}
+                        onClick={() => {
+                            dispatch(clearError())
+                            navigate('/')
+                        }}
                     >
                         Login
                     </span>

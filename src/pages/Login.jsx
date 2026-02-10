@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { loginUser } from '../store/authSlice'
+import { clearError, loginUser } from '../store/authSlice'
 import '../styles/Login.css'
 
 export default function Login() {
@@ -139,7 +139,11 @@ export default function Login() {
                         Don’t have an account?{' '}
                         <span
                             style={{ cursor: 'pointer', color: 'blue' }}
-                            onClick={() => navigate('/signup')}
+                            onClick={() => {
+                                setLocalError(null)
+                                dispatch(clearError())
+                                navigate('/signup')
+                            }}
                         >
                             Sign up
                         </span>
