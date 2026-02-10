@@ -3,53 +3,52 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* full viewport height */
+    min-height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, #f9d423, #ff4e50);
+    background: linear-gradient(135deg, #3e3a66, #5a56a6);
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-/* Dashboard box (card that contains all the dashboard content) */
+/* Dashboard box */
 .dashboard-box {
-    background: #fff3e0;
+    background: #f4f3fb;
     padding: 3rem 2.5rem;
     border-radius: 25px;
     text-align: center;
-    width: 600px; /* Increase the width of the dashboard card */
-    max-width: 90%; /* Ensure responsiveness on smaller screens */
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    width: 600px;
+    max-width: 90%;
+    box-shadow: 0 8px 25px rgba(62, 58, 102, 0.3);
     transition: transform 0.3s;
 }
 
-/* Hover effect for dashboard box */
 .dashboard-box:hover {
     transform: translateY(-5px);
 }
 
 /* Logo */
 .dashboard-box .logo {
-    font-size: 4rem; /* Larger font for the logo */
+    font-size: 4rem;
     margin-bottom: 1rem;
-    color: #ff6f61; /* Matching the theme color */
+    color: #3e3a66;
     text-align: center;
 }
 
 /* Welcome Message */
 .dashboard-box h2 {
     margin-bottom: 1.5rem;
-    color: #ff6f61;
-    font-size: 2rem; /* Larger welcome message */
-    font-weight: bold; /* Make it bold */
+    color: #3e3a66;
+    font-size: 2rem;
+    font-weight: bold;
     text-align: center;
 }
 
 /* Add Kid Section */
 .add-kid-section {
-    background-color: #ff6f61;
+    background-color: #3e3a66;
     padding: 1rem;
     margin-top: 1.5rem;
     border-radius: 15px;
-    color: #fff;
+    color: #ffffff;
     text-align: center;
 }
 
@@ -61,74 +60,36 @@
     text-align: center;
 }
 
-/* Kids List */
-.kids-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 1.5rem;
-}
-
 /* Kid Card Styling */
 .kid-card {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 1.5rem;
     border-radius: 15px;
-    border: 2px solid #ff6f61;
+    border: 2px solid #7a78d0;
     width: 250px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px rgba(62, 58, 102, 0.2);
     transition: transform 0.3s;
     text-align: center;
 }
 
-/* Kid Card hover effect */
 .kid-card:hover {
     transform: translateY(-5px);
 }
 
 /* Kid Info */
-.kid-info {
-    text-align: center;
-}
-
 .kid-name {
     font-size: 1.5rem;
-    color: #ff6f61;
+    color: #3e3a66;
     margin-bottom: 0.5rem;
 }
 
 .kid-details {
     font-size: 1rem;
-    color: #555;
-}
-
-.kid-age {
-    font-weight: bold;
-}
-
-.kid-grade {
-    font-style: italic;
-    margin-left: 0.5rem;
+    color: #4a4a6a;
 }
 
 /* Error messages */
 .error {
-    color: red;
+    color: #e74c3c;
     font-size: 0.9rem;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-    .kids-list {
-        justify-content: flex-start; /* Align kids list to the left on larger screens */
-    }
-    .kid-card {
-        width: 300px; /* Increase width for larger screens */
-    }
-
-    /* Larger screens: Increase the width of the dashboard box */
-    .dashboard-box {
-        width: 800px; /* Make the dashboard card even wider */
-    }
 }

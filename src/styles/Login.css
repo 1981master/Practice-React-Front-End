@@ -1,56 +1,35 @@
-/* Ensure full height for root container */
-html,
-body,
-#root {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-    padding: 0;
-}
-
 /* Full screen login container */
 .login-page {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh; /* full viewport height */
+    min-height: 100vh;
     width: 100%;
-    background: linear-gradient(135deg, #f9d423, #ff4e50);
+    background: linear-gradient(135deg, #3e3a66, #5a56a6);
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
 /* Login box */
 .login-box {
-    background: #fff3e0;
+    background: #f4f3fb; /* light purple-tinted background */
     padding: 3rem 2.5rem;
     border-radius: 25px;
     text-align: center;
     width: 350px;
     max-width: 90%;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 8px 25px rgba(62, 58, 102, 0.35);
     transition: transform 0.3s;
 }
 
-.login-box:hover {
-    transform: translateY(-5px);
-}
-
-/* Logo */
-.login-box .logo {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-/* Headings */
 .login-box h2 {
     margin-bottom: 0.5rem;
-    color: #ff6f61;
+    color: #3e3a66;
 }
 
 .login-box p {
     margin-bottom: 1rem;
     font-size: 0.95rem;
-    color: #333;
+    color: #4a4a6a;
 }
 
 /* Inputs */
@@ -59,14 +38,14 @@ body,
     padding: 1rem;
     margin: 0.5rem 0;
     border-radius: 15px;
-    border: 2px solid #ff6f61;
+    border: 2px solid #7a78d0;
     font-size: 1.1rem;
     outline: none;
     transition: border 0.3s;
 }
 
 .login-box input:focus {
-    border-color: #ff3b2f;
+    border-color: #3e3a66;
 }
 
 /* Button */
@@ -74,93 +53,57 @@ body,
     width: 100%;
     padding: 1rem;
     margin-top: 1rem;
-    background: #ff6f61;
-    color: #fff;
+    background: #3e3a66;
+    color: #ffffff;
     border: none;
     border-radius: 15px;
     font-size: 1.2rem;
     cursor: pointer;
-    transition: background 0.3s;
+    transition:
+        background 0.3s,
+        transform 0.2s;
 }
 
 .login-box button:hover {
-    background: #ff3b2f;
+    background: #7a78d0;
+    transform: translateY(-2px);
 }
 
 .login-box button:disabled {
-    background: #ffa38c;
+    background: #b6b4e6;
     cursor: not-allowed;
 }
 
 /* Error messages */
 .login-box .error {
-    color: red;
+    color: #e74c3c;
     margin-top: 0.5rem;
     font-size: 0.9rem;
 }
 
-/* Kids List */
-.kids-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-    margin-top: 1.5rem;
-}
-
 /* Kid Card Styling */
 .kid-card {
-    background-color: #fff;
+    background-color: #3e3a66; /* SAME as sidebar */
     padding: 1.5rem;
     border-radius: 15px;
-    border: 2px solid #ff6f61;
+    border: 2px solid #7a78d0;
     width: 250px;
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 8px 15px rgba(62, 58, 102, 0.25);
     transition: transform 0.3s;
     text-align: center;
+    color: #ffffff;
 }
 
 .kid-card:hover {
     transform: translateY(-5px);
 }
 
-/* Kid Info */
-.kid-info {
-    text-align: center;
-}
-
 .kid-name {
     font-size: 1.5rem;
-    color: #ff6f61;
-    margin-bottom: 0.5rem;
+    color: #ffffff;
 }
 
 .kid-details {
     font-size: 1rem;
-    color: #555;
-}
-
-.kid-age {
-    font-weight: bold;
-}
-
-.kid-grade {
-    font-style: italic;
-    margin-left: 0.5rem;
-}
-
-/* Error messages */
-.error {
-    color: red;
-    font-size: 0.9rem;
-}
-
-/* Responsive Design */
-@media (min-width: 768px) {
-    .kids-list {
-        justify-content: flex-start; /* Align kids list to the left on larger screens */
-    }
-    .kid-card {
-        width: 300px; /* Increase width for larger screens */
-    }
+    color: #e0e0ff;
 }
