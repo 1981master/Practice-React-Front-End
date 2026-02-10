@@ -51,7 +51,6 @@ export default function AddKid() {
     return (
         <div className="login-page">
             <div className="login-box">
-                <div className="logo">🧸</div>
                 <h2>Add Your Child</h2>
                 <p>Let’s set up a learning profile</p>
 

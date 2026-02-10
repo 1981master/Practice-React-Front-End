@@ -36,7 +36,7 @@
 /* Welcome Message */
 .dashboard-box h2 {
     margin-bottom: 1.5rem;
-    color: #3e3a66;
+    color: #706d96;
     font-size: 2rem;
     font-weight: bold;
     text-align: center;
@@ -44,7 +44,7 @@
 
 /* Add Kid Section */
 .add-kid-section {
-    background-color: #3e3a66;
+    background-color: #9553e0;
     padding: 1rem;
     margin-top: 1.5rem;
     border-radius: 15px;
