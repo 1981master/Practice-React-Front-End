@@ -55,7 +55,8 @@ export default function Signup() {
     return (
         <div className="login-page">
             <div className="login-box">
-                <h1 className="title">🧸 Kids Fun Learning</h1>
+                <h1 className="title">🧸</h1>
+                <h1 className="title">Kids Fun Learning</h1>
                 <h2 className="subtitle">Create Parent Account</h2>
 
                 {/* Parent ID */}
@@ -106,7 +107,12 @@ export default function Signup() {
                     style={{ cursor: 'pointer' }}
                 >
                     Already have an account?{' '}
-                    <span onClick={() => navigate('/')}>Login</span>
+                    <span
+                        className="signin-signup"
+                        onClick={() => navigate('/')}
+                    >
+                        Login
+                    </span>
                 </p>
             </div>
         </div>

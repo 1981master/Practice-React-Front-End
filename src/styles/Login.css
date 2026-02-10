@@ -1,22 +1,25 @@
 /* Full screen login container */
 .login-page {
     display: flex;
-    justify-content: center;
-    align-items: center;
+    justify-content: center; /* horizontal center */
+    align-items: center; /* vertical center */
     min-height: 100vh;
     width: 100%;
     background: linear-gradient(135deg, #3e3a66, #5a56a6);
     font-family: 'Comic Sans MS', cursive, sans-serif;
+    padding: 2% 0; /* optional: small top/bottom breathing room */
 }
 
 /* Login box */
 .login-box {
-    background: #f4f3fb; /* light purple-tinted background */
+    background: #f4f3fb;
     padding: 3rem 2.5rem;
     border-radius: 25px;
     text-align: center;
+    padding: 2%;
     width: 350px;
-    max-width: 90%;
+    /* height: 100vh;  <-- REMOVE THIS */
+    max-height: 90vh; /* optional to prevent overflow */
     box-shadow: 0 8px 25px rgba(62, 58, 102, 0.35);
     transition: transform 0.3s;
 }
@@ -106,4 +109,12 @@
 .kid-details {
     font-size: 1rem;
     color: #e0e0ff;
+}
+.signin-signup {
+    color: #3e3a66;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    margin-top: 1rem;
+    display: inline-block;
 }

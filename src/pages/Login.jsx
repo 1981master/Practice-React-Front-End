@@ -21,8 +21,8 @@ export default function Login() {
         if (!loginId.trim()) {
             setLocalError(
                 userType === 'PARENT'
-                    ? 'Parent ID is required'
-                    : 'Child Login ID is required',
+                    ? 'Parent ID And Password are required'
+                    : 'Child Login ID And Password are required',
             )
             return
         }
@@ -107,7 +107,7 @@ export default function Login() {
                 <p className="switch-page">
                     {userType === 'KID' ? (
                         <>
-                            Logging in as Parent?{' '}
+                            Logging in as Kid?{' '}
                             <button
                                 type="button"
                                 onClick={toggleUserType}
@@ -118,7 +118,9 @@ export default function Login() {
                         </>
                     ) : (
                         <>
-                            Back to Kid Login?{' '}
+                            {userType === 'KID'
+                                ? 'Logging as Kid'
+                                : 'Logging as Parent'}
                             <button
                                 type="button"
                                 onClick={toggleUserType}
@@ -126,12 +128,13 @@ export default function Login() {
                             >
                                 Kid Login
                             </button>
+                            Back to Kid Login?{' '}
                         </>
                     )}
                 </p>
 
                 {/* Signup only for Parent */}
-                {userType === 'PARENT' && (
+                {
                     <p className="switch-page">
                         Don’t have an account?{' '}
                         <span
@@ -141,7 +144,7 @@ export default function Login() {
                             Sign up
                         </span>
                     </p>
-                )}
+                }
             </div>
         </div>
     )
