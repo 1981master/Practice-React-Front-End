@@ -86,13 +86,14 @@ export const deleteTodo = createAsyncThunk(
 const todoSlice = createSlice({
     name: 'todos',
     initialState: {
+        items: [],
         loading: false,
         error: null,
     },
     reducers: {},
     extraReducers: (builder) => {
         builder
-            // ===== Fetch =====
+            // Fetch
             .addCase(fetchTodos.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -109,7 +110,7 @@ const todoSlice = createSlice({
                 state.error = action.payload || 'Failed to fetch todos'
             })
 
-            // ===== Add =====
+            // Add
             .addCase(addTodo.pending, (state) => {
                 state.loading = true
                 state.error = null
@@ -124,7 +125,7 @@ const todoSlice = createSlice({
                 state.error = action.payload || 'Failed to add todo'
             })
 
-            // ===== Toggle =====
+            // Toggle
             .addCase(toggleTodo.fulfilled, (state, action) => {
                 const index = state.items.findIndex(
                     (t) => t.id === action.payload.id,
@@ -133,7 +134,7 @@ const todoSlice = createSlice({
                 localStorage.setItem('todos', JSON.stringify(state.items))
             })
 
-            // ===== Delete =====
+            // Delete
             .addCase(deleteTodo.fulfilled, (state, action) => {
                 state.items = state.items.filter((t) => t.id !== action.payload)
                 localStorage.setItem('todos', JSON.stringify(state.items))

@@ -66,9 +66,9 @@ export default function Dashboard() {
                             <p className="error">Error: {error}</p>
                         ) : kids.length > 0 ? (
                             <div className="kids-list">
-                                {kids.map((k, index) => (
+                                {kids.map((k) => (
                                     <div
-                                        key={k.id || index}
+                                        key={k.id}
                                         className="kid-card"
                                     >
                                         <div className="kid-info">
