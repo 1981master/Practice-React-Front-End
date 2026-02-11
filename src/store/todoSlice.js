@@ -24,11 +24,13 @@ API.interceptors.request.use(
 // Async thunks
 // ========================
 
+// Fetch todos for current kid
 export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
-    async (kidId, { rejectWithValue }) => {
+    async (_, { rejectWithValue }) => {
+        // no kidId needed
         try {
-            const res = await API.get(`/todo/${kidId}`)
+            const res = await API.get('/todo/my-todos')
             return res.data
         } catch (err) {
             return rejectWithValue(
@@ -38,11 +40,12 @@ export const fetchTodos = createAsyncThunk(
     },
 )
 
+// Add a new todo (parent assigns)
 export const addTodo = createAsyncThunk(
     'todos/addTodo',
     async (todo, { rejectWithValue }) => {
         try {
-            const res = await API.post('/todo/saveToDo', todo)
+            const res = await API.post('/todo/assign', todo)
             return res.data
         } catch (err) {
             return rejectWithValue(err.response?.data || 'Failed to add todo')

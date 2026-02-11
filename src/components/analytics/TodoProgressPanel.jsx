@@ -8,9 +8,12 @@ import {
 } from '../../store/todoSlice'
 import '../../styles/todo.css'
 
-export default function TodoProgressPanel({ kidId }) {
+export default function TodoProgressPanel({
+    kidId: defaultKidId,
+    kids = [],
+    isParent = false,
+}) {
     const dispatch = useDispatch()
-
     const {
         items: todos = [],
         loading = false,
@@ -20,20 +23,22 @@ export default function TodoProgressPanel({ kidId }) {
     const [input, setInput] = useState('')
     const [note, setNote] = useState('')
     const [priority, setPriority] = useState('MEDIUM')
+    const [selectedKidId, setSelectedKidId] = useState(defaultKidId)
 
+    // Fetch todos whenever selected kid changes
     useEffect(() => {
-        if (kidId) {
-            dispatch(fetchTodos(kidId))
+        if (selectedKidId) {
+            dispatch(fetchTodos(selectedKidId))
         }
-    }, [kidId, dispatch])
+    }, [selectedKidId, dispatch])
 
     const handleAddTodo = (e) => {
         e.preventDefault()
-        if (!input.trim()) return
+        if (!input.trim() || !selectedKidId) return
 
         dispatch(
             addTodo({
-                kidId,
+                kidId: selectedKidId,
                 text: input.trim(),
                 note: note.trim() || null,
                 priority,
@@ -51,11 +56,13 @@ export default function TodoProgressPanel({ kidId }) {
     const percent = total ? (completed / total) * 100 : 0
 
     function dateFormat(timestamp) {
+        if (!timestamp) return ''
         const date = new Date(timestamp.slice(0, 23)) // trim microseconds
-
         const pad2 = (n) => n.toString().padStart(2, '0')
-
-        return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}/${date.getFullYear().toString().slice(2)} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`
+        return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}/${date
+            .getFullYear()
+            .toString()
+            .slice(2)} ${pad2(date.getHours())}:${pad2(date.getMinutes())}`
     }
 
     return (
@@ -70,6 +77,26 @@ export default function TodoProgressPanel({ kidId }) {
                     className="todo-form"
                     onSubmit={handleAddTodo}
                 >
+                    {/* Dropdown for parent to select kid */}
+                    {isParent && kids.length > 0 && (
+                        <select
+                            value={selectedKidId}
+                            onChange={(e) =>
+                                setSelectedKidId(Number(e.target.value))
+                            }
+                            disabled={loading}
+                        >
+                            {kids.map((k) => (
+                                <option
+                                    key={k.id}
+                                    value={k.id}
+                                >
+                                    {k.name} {k.age ? `(${k.age} yrs)` : ''}
+                                </option>
+                            ))}
+                        </select>
+                    )}
+
                     <input
                         type="text"
                         placeholder="New todo..."
@@ -124,7 +151,6 @@ export default function TodoProgressPanel({ kidId }) {
                                         <span className="todo-text">
                                             {t.text}
                                         </span>
-
                                         {t.note && (
                                             <span className="todo-note">
                                                 📝 {t.note}
@@ -138,9 +164,11 @@ export default function TodoProgressPanel({ kidId }) {
                                         {t.priority}
                                     </span>
                                 </div>
+
                                 <div style={{ margin: '6px' }}>
                                     <small>{dateFormat(t.createdAt)}</small>
                                 </div>
+
                                 <div className="todo-actions">
                                     <button
                                         className="edit-btn"
