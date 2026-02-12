@@ -25,7 +25,6 @@ export default function TodoProgressPanel({
     const [priority, setPriority] = useState('MEDIUM')
     const [selectedKidId, setSelectedKidId] = useState(defaultKidId)
 
-    // Fetch todos whenever selected kid changes
     useEffect(() => {
         if (selectedKidId) {
             dispatch(fetchTodos(selectedKidId))
@@ -57,7 +56,7 @@ export default function TodoProgressPanel({
 
     function dateFormat(timestamp) {
         if (!timestamp) return ''
-        const date = new Date(timestamp.slice(0, 23)) // trim microseconds
+        const date = new Date(timestamp.slice(0, 23))
         const pad2 = (n) => n.toString().padStart(2, '0')
         return `${pad2(date.getMonth() + 1)}/${pad2(date.getDate())}/${date
             .getFullYear()
@@ -78,7 +77,7 @@ export default function TodoProgressPanel({
                     onSubmit={handleAddTodo}
                 >
                     {/* Dropdown for parent to select kid */}
-                    {isParent && kids.length > 0 && (
+                    {kids.length > 0 && (
                         <select
                             value={selectedKidId}
                             onChange={(e) =>
