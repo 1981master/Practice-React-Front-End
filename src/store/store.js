@@ -14,7 +14,7 @@ const sanitizeState = (state) => {
         auth: state.auth
             ? {
                   ...state.auth,
-                  token: '***REMOVED***',
+                  token: '[FILTERED]',
               }
             : state.auth,
     }
