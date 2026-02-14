@@ -4,7 +4,6 @@ import AccuracyTrendChart from './AccuracyTrendChart'
 import OverviewCards from './OverviewCards'
 import RecommendationsPanel from './RecommendationsPanel'
 import TimeSpentChart from './TimeSpentChart'
-import TodoProgressPanel from './TodoProgressPanel'
 import TopicMasteryTable from './TopicMasteryTable'
 
 export default function Analytics() {
@@ -22,7 +21,6 @@ export default function Analytics() {
             </div>
             <TopicMasteryTable kidId={kidId} />
             <RecommendationsPanel kidId={kidId} />
-            <TodoProgressPanel kidId={kidId} />
         </div>
     )
 }

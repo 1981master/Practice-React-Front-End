@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useCallback, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Analytics from '../components/analytics/Analytics'
 import TodoProgressPanel from '../components/analytics/TodoProgressPanel'
@@ -11,11 +11,18 @@ import {
     selectKidsItems,
     selectKidsLoading,
 } from '../store/kidSlice'
+import { fetchTodos } from '../store/todoSlice'
 import '../styles/dashboard.css'
 
 export default function Dashboard() {
     const dispatch = useDispatch()
     const user = useSelector((state) => state.auth.user)
+
+    const hasPermission = useCallback(
+        (perm) =>
+            Array.isArray(user?.permissions) && user.permissions.includes(perm),
+        [user?.permissions],
+    )
 
     // Kids slice
     const kidsFromStore = useSelector(selectKidsItems)
@@ -23,33 +30,35 @@ export default function Dashboard() {
     const loading = useSelector(selectKidsLoading)
     const error = useSelector(selectKidsError)
 
+    // Todos slice
+    const todosFromStore = useSelector((state) => state.todos.items || [])
+    const todosLoading = useSelector((state) => state.todos.loading)
+    const todosError = useSelector((state) => state.todos.error)
+
     useEffect(() => {
-        if (user) {
-            dispatch(fetchKids())
+        if (!user) return
+
+        dispatch(fetchKids()) // always fetch kids for parent
+
+        if (user.permissions.includes('VIEW_ANALYTICS')) {
+            // Parent: fetch all todos
+            dispatch(fetchTodos({ parent: true }))
+        } else {
+            // Kid: fetch only their own todos
+            dispatch(fetchTodos({ kidId: user.id }))
         }
     }, [user, dispatch])
 
     if (!user) return <p>Loading...</p>
-
-    const hasPermission = (perm) => {
-        // console.log('🔐 Checking permission:', perm)
-        // console.log('👤 User:', user)
-        // console.log('📜 User permissions:', user.permissions)
-
-        const result =
-            Array.isArray(user.permissions) && user.permissions.includes(perm)
-
-        // console.log(`✅ Result for ${perm}:`, result)
-        return result
-    }
 
     return (
         <div className="dashboard-page">
             <div className="dashboard-box">
                 <div className="logo">🧸</div>
 
-                <h2>Welcome {` ${user.name || ''}`}</h2>
+                <h2>Welcome {user.name || ''}</h2>
 
+                {/* Add kid section visible only to parents with VIEW_KIDS permission */}
                 {hasPermission('VIEW_KIDS') && (
                     <div className="add-kid-section">
                         <h3>Add a New Kid</h3>
@@ -57,6 +66,7 @@ export default function Dashboard() {
                     </div>
                 )}
 
+                {/* Parent: show kids list */}
                 {hasPermission('VIEW_ANALYTICS') && (
                     <>
                         <h3>Your Kids</h3>
@@ -98,19 +108,25 @@ export default function Dashboard() {
                     </>
                 )}
 
+                {/* Todo Progress Panel */}
+                <TodoProgressPanel
+                    todos={todosFromStore}
+                    todosLoading={todosLoading}
+                    todosError={todosError}
+                    kids={hasPermission('VIEW_ANALYTICS') ? kids : []} // only pass kids to parent
+                    isParent={hasPermission('VIEW_ANALYTICS')}
+                    userId={user.id}
+                />
+
+                {/* Topic Progress for parent/kid */}
                 {hasPermission('VIEW_TOPICS') && <TopicProgress />}
+
                 <div style={{ padding: 24 }}>
                     <h1>Subjects</h1>
                     <SubjectList />
                 </div>
 
-                {/* 👶 Kid should see this */}
-                {!hasPermission('VIEW_ANALYTICS') && (
-                    <>
-                        <TodoProgressPanel kidId={user.id} />
-                    </>
-                )}
-
+                {/* Analytics visible only to parents */}
                 {hasPermission('VIEW_ANALYTICS') && <Analytics />}
             </div>
         </div>

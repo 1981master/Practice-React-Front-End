@@ -9,22 +9,35 @@ import {
 import '../../styles/todo.css'
 
 export default function TodoProgressPanel({
-    kidId: defaultKidId,
+    kidId: defaultKidId = null,
     kids = [],
-    isParent = false,
 }) {
     const dispatch = useDispatch()
+
+    const { user } = useSelector((state) => state.auth || {})
+
     const {
         items: todos = [],
         loading = false,
         error = null,
     } = useSelector((state) => state.todos || {})
 
+    // ✅ Permission-based control: parent/admin
+    const canManageTodos = user?.permissions?.includes('VIEW_ANALYTICS')
+
     const [input, setInput] = useState('')
     const [note, setNote] = useState('')
     const [priority, setPriority] = useState('MEDIUM')
-    const [selectedKidId, setSelectedKidId] = useState(defaultKidId)
+    const [selectedKidId, setSelectedKidId] = useState(defaultKidId || null)
 
+    // ✅ Auto-select first kid for parent/admin
+    useEffect(() => {
+        if (canManageTodos && kids.length > 0 && !selectedKidId) {
+            setSelectedKidId(kids[0].id)
+        }
+    }, [canManageTodos, kids, selectedKidId])
+
+    // ✅ Fetch todos when kid changes
     useEffect(() => {
         if (selectedKidId) {
             dispatch(fetchTodos(selectedKidId))
@@ -33,7 +46,9 @@ export default function TodoProgressPanel({
 
     const handleAddTodo = (e) => {
         e.preventDefault()
-        if (!input.trim() || !selectedKidId) return
+
+        if (!input.trim()) return
+        if (canManageTodos && !selectedKidId) return
 
         dispatch(
             addTodo({
@@ -68,65 +83,70 @@ export default function TodoProgressPanel({
         <div className="todo-page">
             <div className="todo-box">
                 <h2>Todo Progress</h2>
+
                 <p className="todo-progress">
                     {completed}/{total} completed ({percent.toFixed(0)}%)
                 </p>
 
-                <form
-                    className="todo-form"
-                    onSubmit={handleAddTodo}
-                >
-                    {/* Dropdown for parent to select kid */}
-                    {kids.length > 0 && (
+                {/* ✅ Only Parent/Admin can see form */}
+                {canManageTodos && (
+                    <form
+                        className="todo-form"
+                        onSubmit={handleAddTodo}
+                    >
+                        {kids.length > 0 && (
+                            <select
+                                value={selectedKidId || ''}
+                                onChange={(e) =>
+                                    setSelectedKidId(Number(e.target.value))
+                                }
+                                disabled={loading}
+                            >
+                                {kids.map((k) => (
+                                    <option
+                                        key={k.id}
+                                        value={k.id}
+                                    >
+                                        {k.name} {k.age ? `(${k.age} yrs)` : ''}
+                                    </option>
+                                ))}
+                            </select>
+                        )}
+
+                        <input
+                            type="text"
+                            placeholder="New todo..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            disabled={loading}
+                        />
+
+                        <input
+                            type="text"
+                            placeholder="Optional note..."
+                            value={note}
+                            onChange={(e) => setNote(e.target.value)}
+                            disabled={loading}
+                        />
+
                         <select
-                            value={selectedKidId}
-                            onChange={(e) =>
-                                setSelectedKidId(Number(e.target.value))
-                            }
+                            value={priority}
+                            onChange={(e) => setPriority(e.target.value)}
                             disabled={loading}
                         >
-                            {kids.map((k) => (
-                                <option
-                                    key={k.id}
-                                    value={k.id}
-                                >
-                                    {k.name} {k.age ? `(${k.age} yrs)` : ''}
-                                </option>
-                            ))}
+                            <option value="LOW">Low</option>
+                            <option value="MEDIUM">Medium</option>
+                            <option value="HIGH">High</option>
                         </select>
-                    )}
 
-                    <input
-                        type="text"
-                        placeholder="New todo..."
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        disabled={loading}
-                    />
-                    <input
-                        type="text"
-                        placeholder="Optional note..."
-                        value={note}
-                        onChange={(e) => setNote(e.target.value)}
-                        disabled={loading}
-                    />
-                    <select
-                        value={priority}
-                        onChange={(e) => setPriority(e.target.value)}
-                        disabled={loading}
-                    >
-                        <option value="LOW">Low</option>
-                        <option value="MEDIUM">Medium</option>
-                        <option value="HIGH">High</option>
-                    </select>
-
-                    <button
-                        type="submit"
-                        disabled={loading}
-                    >
-                        {loading ? 'Adding...' : 'Add Todo'}
-                    </button>
-                </form>
+                        <button
+                            type="submit"
+                            disabled={loading}
+                        >
+                            {loading ? 'Adding...' : 'Add Todo'}
+                        </button>
+                    </form>
+                )}
 
                 {todos.length === 0 ? (
                     <p className="empty">No todo items available.</p>
@@ -135,7 +155,9 @@ export default function TodoProgressPanel({
                         {todos.map((t) => (
                             <li
                                 key={t.id}
-                                className={`todo-item ${t.completed ? 'completed' : ''}`}
+                                className={`todo-item ${
+                                    t.completed ? 'completed' : ''
+                                }`}
                             >
                                 <div className="todo-left">
                                     <input
@@ -150,6 +172,7 @@ export default function TodoProgressPanel({
                                         <span className="todo-text">
                                             {t.text}
                                         </span>
+
                                         {t.note && (
                                             <span className="todo-note">
                                                 📝 {t.note}
@@ -169,13 +192,36 @@ export default function TodoProgressPanel({
                                 </div>
 
                                 <div className="todo-actions">
+                                    {/* Show kid name for parent/admin */}
+                                    {kids.length > 0 && (
+                                        <span
+                                            style={{
+                                                marginRight: '8px',
+                                                fontWeight: 'bold',
+                                            }}
+                                        >
+                                            {kids.find((k) => k.id === t.kidId)
+                                                ?.name || 'Unknown'}
+                                        </span>
+                                    )}
+
+                                    {/* Edit button */}
                                     <button
                                         className="edit-btn"
                                         title="Update todo"
                                         type="button"
+                                        onClick={() => {
+                                            setInput(t.text)
+                                            setNote(t.note || '')
+                                            setPriority(t.priority)
+                                            if (kids.length > 0)
+                                                setSelectedKidId(t.kidId)
+                                        }}
                                     >
                                         ✏️
-                                    </button>{' '}
+                                    </button>
+
+                                    {/* Delete button */}
                                     <button
                                         className="delete-btn"
                                         title="Delete todo"

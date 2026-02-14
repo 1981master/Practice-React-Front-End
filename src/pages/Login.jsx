@@ -59,7 +59,7 @@ export default function Login() {
         <div className="login-page">
             <div className="login-box">
                 <div className="logo">🧸</div>
-                <div className="logo">Kids F/L</div>
+                <div className="logo">Kids Fun/L</div>
                 <h2>Welcome!</h2>
                 <p>
                     {userType === 'PARENT'
