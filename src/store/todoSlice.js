@@ -22,28 +22,6 @@ API.interceptors.request.use(
 // ========================
 // Async thunks
 // ========================
-
-// Fetch todos
-// export const fetchTodos = createAsyncThunk(
-//     'todos/fetchTodos',
-//     async (params = {}, { rejectWithValue }) => {
-//         try {
-//             // If parent wants all todos
-//             let url = '/todo/my-todos' // default: kid-only
-//             if (params.parent) {
-//                 url = '/todo' // endpoint returns all todos for the parent
-//             } else if (params.kidId) {
-//                 url = `/todo?kidId=${params.kidId}` // existing kid-specific endpoint
-//             }
-//             const res = await API.get(url)
-//             return res.data
-//         } catch (err) {
-//             return rejectWithValue(
-//                 err.response?.data || 'Failed to fetch todos',//this issue show even when i Have the fetch
-//             )
-//         }
-//     },
-// )
 export const fetchTodos = createAsyncThunk(
     'todos/fetchTodos',
     async (params = {}, { rejectWithValue }) => {
